@@ -16,5 +16,22 @@ namespace LiveDiscography
         {
             InitializeComponent();
         }
+
+        FormArtist fA=new FormArtist();
+        Artist addedArtist;
+
+        private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddArtist_Click(object sender, EventArgs e)
+        {
+            if (fA.ShowDialog()==DialogResult.OK)
+            {
+                addedArtist = new Artist(fA.txtArName.Text,(String)fA.cbArGenre.SelectedItem,fA.txtArLabel.Text, fA.txtArName.Text);
+                
+            }
+        }
     }
 }
