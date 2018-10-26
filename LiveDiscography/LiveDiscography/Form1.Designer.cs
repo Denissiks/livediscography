@@ -38,6 +38,7 @@
             this.btnAddArtist = new System.Windows.Forms.Button();
             this.btnAddSong = new System.Windows.Forms.Button();
             this.btnAddAlbum = new System.Windows.Forms.Button();
+            this.txtArtistInfoDisplay = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,6 +96,7 @@
             this.lbArtist.Name = "lbArtist";
             this.lbArtist.Size = new System.Drawing.Size(281, 316);
             this.lbArtist.TabIndex = 1;
+            this.lbArtist.SelectedIndexChanged += new System.EventHandler(this.lbArtist_SelectedIndexChanged);
             // 
             // btnAddArtist
             // 
@@ -124,11 +126,21 @@
             this.btnAddAlbum.Text = "Add New Album";
             this.btnAddAlbum.UseVisualStyleBackColor = true;
             // 
+            // txtArtistInfoDisplay
+            // 
+            this.txtArtistInfoDisplay.Enabled = false;
+            this.txtArtistInfoDisplay.Location = new System.Drawing.Point(477, 49);
+            this.txtArtistInfoDisplay.Multiline = true;
+            this.txtArtistInfoDisplay.Name = "txtArtistInfoDisplay";
+            this.txtArtistInfoDisplay.Size = new System.Drawing.Size(249, 316);
+            this.txtArtistInfoDisplay.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(751, 422);
+            this.Controls.Add(this.txtArtistInfoDisplay);
             this.Controls.Add(this.btnAddAlbum);
             this.Controls.Add(this.btnAddSong);
             this.Controls.Add(this.btnAddArtist);
@@ -156,6 +168,7 @@
         private System.Windows.Forms.Button btnAddArtist;
         private System.Windows.Forms.Button btnAddSong;
         private System.Windows.Forms.Button btnAddAlbum;
+        private System.Windows.Forms.TextBox txtArtistInfoDisplay;
     }
 }
 
