@@ -76,17 +76,19 @@
             this.artistToolStripMenuItem.Name = "artistToolStripMenuItem";
             this.artistToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.artistToolStripMenuItem.Text = "Artist";
+            this.artistToolStripMenuItem.Click += new System.EventHandler(this.btnAddArtist_Click);
             // 
             // songToolStripMenuItem
             // 
             this.songToolStripMenuItem.Name = "songToolStripMenuItem";
             this.songToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.songToolStripMenuItem.Text = "Song";
+            this.songToolStripMenuItem.Click += new System.EventHandler(this.btnAddSong_Click);
             // 
             // albumToolStripMenuItem
             // 
             this.albumToolStripMenuItem.Name = "albumToolStripMenuItem";
-            this.albumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.albumToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.albumToolStripMenuItem.Text = "Album";
             // 
             // lbArtist
@@ -116,6 +118,7 @@
             this.btnAddSong.TabIndex = 3;
             this.btnAddSong.Text = "Add New Song";
             this.btnAddSong.UseVisualStyleBackColor = true;
+            this.btnAddSong.Click += new System.EventHandler(this.btnAddSong_Click);
             // 
             // btnAddAlbum
             // 
@@ -125,6 +128,7 @@
             this.btnAddAlbum.TabIndex = 4;
             this.btnAddAlbum.Text = "Add New Album";
             this.btnAddAlbum.UseVisualStyleBackColor = true;
+            this.btnAddAlbum.Click += new System.EventHandler(this.btnAddAlbum_Click);
             // 
             // txtArtistInfoDisplay
             // 

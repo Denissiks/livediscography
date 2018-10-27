@@ -18,10 +18,14 @@ namespace LiveDiscography
             InitializeComponent();
         }
 
-        FormArtist fA=new FormArtist();
+        FormArtist fA = new FormArtist();
+        FormAlbum fAl = new FormAlbum();
+        FormSong fS = new FormSong();
         Artist addedArtist;
-        ArrayList artists=new ArrayList();
-        int i ;
+        Song addedSong;
+        ArrayList artists = new ArrayList();
+        ArrayList songs = new ArrayList();
+        int i;
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -29,28 +33,83 @@ namespace LiveDiscography
 
         private void btnAddArtist_Click(object sender, EventArgs e)
         {
-            if (fA.ShowDialog()==DialogResult.OK)
+            if (fA.ShowDialog() == DialogResult.OK)
             {
-                addedArtist = new Artist(fA.txtArName.Text,(String)fA.cbArGenre.SelectedItem,fA.txtArLabel.Text, fA.txtArRealName.Text);
-                artists.Add(addedArtist);
-                lbArtist.Items.Add(addedArtist.Name);
+                if (artists.Contains(fA.Name))
+                {
+
+                }
+                else
+                {
+                    addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+                    artists.Add(addedArtist);
+                    lbArtist.Items.Add(addedArtist.Name);
+                }
+                
                 lbArtist.Refresh();
             }
         }
 
         private void lbArtist_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (i= 0; i < artists.Count; i++)
+            for (i = 0; i < artists.Count; i++)
             {
+
                 if (lbArtist.SelectedIndex.Equals(i))
                 {
-                    txtArtistInfoDisplay.Text = ((Artist)artists[i]).Name + "\n" + ((Artist)artists[i]).Genre + "\n" + ((Artist)artists[i]).Labels + "\n" + ((Artist)artists[i]).RealName;
+                    
+                    
+                        txtArtistInfoDisplay.Text = ((Artist)artists[i]).Name + "\n" + ((Artist)artists[i]).Genre + "\n" + ((Artist)artists[i]).Labels + "\n" + ((Artist)artists[i]).RealName;
+                    
+
                 }
+
+
+
             }
 
-            foreach(Artist a in artists)
+            foreach (Artist a in artists)
             {
-                 
+
+            }
+        }
+
+        private void btnAddSong_Click(object sender, EventArgs e)
+        {
+            if (fS.ShowDialog() == DialogResult.OK)
+            {
+                if (songs.Contains(fA.Name))
+                {
+
+                }
+                else
+                {
+                    //addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+                    //artists.Add(addedArtist);
+                    //lbArtist.Items.Add(addedArtist.Name);
+                }
+
+                lbArtist.Refresh();
+            }
+
+        }
+
+        private void btnAddAlbum_Click(object sender, EventArgs e)
+        {
+            if (fAl.ShowDialog() == DialogResult.OK)
+            {
+                if (songs.Contains(fA.Name))
+                {
+
+                }
+                else
+                {
+                    //addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+                    //artists.Add(addedArtist);
+                    //lbArtist.Items.Add(addedArtist.Name);
+                }
+
+                lbArtist.Refresh();
             }
         }
     }

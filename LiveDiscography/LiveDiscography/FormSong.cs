@@ -10,14 +10,12 @@ using System.Windows.Forms;
 
 namespace LiveDiscography
 {
-    public partial class FormArtist : Form
+    public partial class FormSong : Form
     {
-        public FormArtist()
+        public FormSong()
         {
             InitializeComponent();
         }
-
-        
 
         private void btnAccept_Click(object sender, EventArgs e)
         {

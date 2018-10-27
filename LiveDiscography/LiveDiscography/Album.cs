@@ -32,6 +32,7 @@ namespace LiveDiscography
 
     class Album
     {
+        string title;
         int releaseYear;
         eMonth releaseMonth;
         int releaseDay;
@@ -42,8 +43,9 @@ namespace LiveDiscography
         int numberOfTracks;
         Artist albumArtist;
 
-        public Album(int releaseYear, eMonth releaseMonth, int releaseDay, string releaseCountry, string recordLabel, string genre, int totalMinLength, int numberOfTracks, Artist albumArtist)
+        public Album(string title, int releaseYear, eMonth releaseMonth, int releaseDay, string releaseCountry, string recordLabel, string genre, int totalMinLength, int numberOfTracks, Artist albumArtist)
         {
+            this.Title = title;
             this.ReleaseYear = releaseYear;
             this.ReleaseMonth = releaseMonth;
             this.ReleaseDay = releaseDay;
@@ -55,6 +57,7 @@ namespace LiveDiscography
             this.AlbumArtist = albumArtist;
         }
 
+        public string Title { get => title; set => title = value; }
         public int ReleaseYear { get => releaseYear; set => releaseYear = value; }
         public int ReleaseDay { get => releaseDay; set => releaseDay = value; }
         public string ReleaseCountry { get => releaseCountry; set => releaseCountry = value; }

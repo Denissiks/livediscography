@@ -35,9 +35,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.cbArGenre = new System.Windows.Forms.ComboBox();
             this.txtArRealName = new System.Windows.Forms.TextBox();
             this.lblRealName = new System.Windows.Forms.Label();
+            this.txtArGenre = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtArName
@@ -101,19 +101,11 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Record Label";
             // 
-            // cbArGenre
-            // 
-            this.cbArGenre.FormattingEnabled = true;
-            this.cbArGenre.Location = new System.Drawing.Point(28, 78);
-            this.cbArGenre.Name = "cbArGenre";
-            this.cbArGenre.Size = new System.Drawing.Size(221, 21);
-            this.cbArGenre.TabIndex = 8;
-            // 
             // txtArRealName
             // 
             this.txtArRealName.Location = new System.Drawing.Point(28, 189);
             this.txtArRealName.Name = "txtArRealName";
-            this.txtArRealName.Size = new System.Drawing.Size(218, 20);
+            this.txtArRealName.Size = new System.Drawing.Size(221, 20);
             this.txtArRealName.TabIndex = 9;
             // 
             // lblRealName
@@ -125,6 +117,13 @@
             this.lblRealName.TabIndex = 10;
             this.lblRealName.Text = "Real Name";
             // 
+            // txtArGenre
+            // 
+            this.txtArGenre.Location = new System.Drawing.Point(28, 78);
+            this.txtArGenre.Name = "txtArGenre";
+            this.txtArGenre.Size = new System.Drawing.Size(221, 20);
+            this.txtArGenre.TabIndex = 11;
+            // 
             // FormArtist
             // 
             this.AcceptButton = this.btnAccept;
@@ -132,9 +131,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(278, 287);
+            this.Controls.Add(this.txtArGenre);
             this.Controls.Add(this.lblRealName);
             this.Controls.Add(this.txtArRealName);
-            this.Controls.Add(this.cbArGenre);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -143,7 +142,7 @@
             this.Controls.Add(this.txtArLabel);
             this.Controls.Add(this.txtArName);
             this.Name = "FormArtist";
-            this.Text = "FormArtist";
+            this.Text = "New Artist";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -158,8 +157,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        public System.Windows.Forms.ComboBox cbArGenre;
         public System.Windows.Forms.TextBox txtArRealName;
         private System.Windows.Forms.Label lblRealName;
+        public System.Windows.Forms.TextBox txtArGenre;
     }
 }
