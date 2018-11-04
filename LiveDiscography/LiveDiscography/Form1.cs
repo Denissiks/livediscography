@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,11 @@ namespace LiveDiscography
         ArrayList artists = new ArrayList();
         ArrayList songs = new ArrayList();
         int i;
+
+        FileStream fs;
+        BinaryWriter bw;
+        BinaryReader br;
+
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -47,6 +53,7 @@ namespace LiveDiscography
                 }
                 
                 lbArtist.Refresh();
+                this.writeFile();
             }
         }
 
@@ -110,6 +117,44 @@ namespace LiveDiscography
                 }
 
                 lbArtist.Refresh();
+            }
+        }
+
+        private void writeFile()
+        {
+            try
+            {
+                fs = new FileStream("C:\\Users\\Usuario\\artistData.bin", FileMode.OpenOrCreate, FileAccess.Write);
+                bw = new BinaryWriter(fs);
+
+                for(i=0; i<artists.Count; i++)
+                {
+                    bw.Write("Prueba"+(i+1));
+                }
+                bw.Close();
+                fs.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Imposible guardar", "Error detectado",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void readFile()
+        {
+            try
+            {
+                fs = new FileStream("C:\\Users\\Usuario\\artistData.bin", FileMode.Open, FileAccess.Read);
+                br = new BinaryReader(fs);
+
+                while (br.Read() != -1)
+                {
+
+                }
+            }
+            catch
+            {
+
             }
         }
     }

@@ -31,7 +31,7 @@ namespace LiveDiscography
             
             for(int i=0;i<13;i++)
             {
-                cbMonth.Items.Add(mes[i]);
+                
             }
             
             this.Refresh();
