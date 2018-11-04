@@ -25,6 +25,7 @@ namespace LiveDiscography
         Artist addedArtist;
         Song addedSong;
         ArrayList artists = new ArrayList();
+        ArrayList albums = new ArrayList();
         ArrayList songs = new ArrayList();
         int i;
 
@@ -51,7 +52,7 @@ namespace LiveDiscography
                     artists.Add(addedArtist);
                     lbArtist.Items.Add(addedArtist.Name);
                 }
-                
+
                 lbArtist.Refresh();
                 this.writeFile();
             }
@@ -64,10 +65,10 @@ namespace LiveDiscography
 
                 if (lbArtist.SelectedIndex.Equals(i))
                 {
-                    
-                    
-                        txtArtistInfoDisplay.Text = ((Artist)artists[i]).Name + "\n" + ((Artist)artists[i]).Genre + "\n" + ((Artist)artists[i]).Labels + "\n" + ((Artist)artists[i]).RealName;
-                    
+
+
+                    txtArtistInfoDisplay.Text = ((Artist)artists[i]).Name + "\n" + ((Artist)artists[i]).Genre + "\n" + ((Artist)artists[i]).Labels + "\n" + ((Artist)artists[i]).RealName;
+
 
                 }
 
@@ -127,16 +128,47 @@ namespace LiveDiscography
                 fs = new FileStream("C:\\Users\\Usuario\\artistData.bin", FileMode.OpenOrCreate, FileAccess.Write);
                 bw = new BinaryWriter(fs);
 
-                for(i=0; i<artists.Count; i++)
+                //Primero guardamos los primitivos de cada artista
+                for (i = 0; i < artists.Count; i++)
                 {
-                    bw.Write("Prueba"+(i+1));
+
+                    bw.Write(((Artist)artists[i]).Name);
+                    bw.Write(((Artist)artists[i]).Genre);
+                    bw.Write(((Artist)artists[i]).Labels);
+                    bw.Write(((Artist)artists[i]).RealName);
+                }
+
+                //Despues guardamos los primitivos de cada album
+                for (i = 0; i < albums.Count; i++)
+                {
+                    bw.Write(((Album)albums[i]).Title);
+                    bw.Write(((Album)albums[i]).ReleaseYear);
+                    bw.Write(((Album)albums[i]).ToString());
+                    bw.Write(((Album)albums[i]).ReleaseDay);
+                    bw.Write(((Album)albums[i]).ReleaseCountry);
+                    bw.Write(((Album)albums[i]).RecordLabel);
+                    bw.Write(((Album)albums[i]).Genre);
+                    bw.Write(((Album)albums[i]).TotalMinLength);
+                    bw.Write(((Album)albums[i]).NumberOfTracks);
+                    bw.Write(((Album)albums[i]).AlbumArtist.Name);
+                }
+
+                //Despues guardamos los primitivos de cada cancion
+                for (i = 0; i < songs.Count; i++)
+                {                    
+                    bw.Write(((Song)songs[i]).SongName);
+                    bw.Write(((Song)songs[i]).SongAlbum);
+                    bw.Write(((Song)songs[i]).SongArtist);
+                    bw.Write(((Song)songs[i]).MinLength);
+                    bw.Write(((Song)songs[i]).SecLength);
+                    bw.Write(((Song)songs[i]).Genre);
                 }
                 bw.Close();
                 fs.Close();
             }
             catch
             {
-                MessageBox.Show("Imposible guardar", "Error detectado",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+                MessageBox.Show("Imposible guardar", "Error detectado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -154,7 +186,7 @@ namespace LiveDiscography
             }
             catch
             {
-
+                MessageBox.Show("Fallo al leer", "Error detectado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }

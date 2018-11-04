@@ -67,5 +67,72 @@ namespace LiveDiscography
         public int NumberOfTracks { get => numberOfTracks; set => numberOfTracks = value; }
         internal eMonth ReleaseMonth { get => releaseMonth; set => releaseMonth = value; }
         internal Artist AlbumArtist { get => albumArtist; set => albumArtist = value; }
+
+        public override string ToString()
+        {
+
+            switch (this.ReleaseMonth)
+            {
+                default:
+                    return "Error";
+
+                case eMonth.January:
+                    return "January";
+                    break;
+
+                case eMonth.February:
+                    return "February";
+                    break;
+
+                case eMonth.March:
+                    return "March";
+                    break;
+
+                case eMonth.April:
+                    return "April";
+                    break;
+
+                case eMonth.May:
+                    return "May";
+                    break;
+
+                case eMonth.June:
+                    return "June";
+                    break;
+
+                case eMonth.July:
+                    return "July";
+                    break;
+
+                case eMonth.August:
+                    return "August";
+                    break;
+
+                case eMonth.September:
+                    return "September";
+                    break;
+
+                case eMonth.October:
+                    return "October";
+                    break;
+
+                case eMonth.November:
+                    return "November";
+                    break;
+
+                case eMonth.December:
+                    return "December";
+                    break;
+
+            }
+
+           
+
+            
+        }
     }
+
+    
+    
+
 }
