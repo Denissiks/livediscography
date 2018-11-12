@@ -55,17 +55,16 @@ namespace LiveDiscography
                     {
                         addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
 
-
-                        if (fA.txtArName.Equals(((Artist)artists[j]).Name))
+                        if (addedArtist.Name.Equals(((Artist)artists[j]).Name))
                         {
                             
-                            flag = false;
-
+                            flag = true;
+                           
                         }
                         else
                         {
-                            flag = true;
-
+                            flag = false;
+                            
                         }
                     }
 
@@ -78,7 +77,7 @@ namespace LiveDiscography
                     }
                     else
                     {
-                        MessageBox.Show("Ese artista ya existe en la base de datos");
+                        MessageBox.Show("Ese artista ya existe en la base de datos"+Environment.NewLine +"No se permiten duplicados");
                     }
                 }
                 else
