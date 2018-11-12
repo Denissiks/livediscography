@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.txtAlbum = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtArtist = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtLenMin = new System.Windows.Forms.TextBox();
+            this.txtLenSec = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.txtGenre = new System.Windows.Forms.TextBox();
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -55,19 +55,19 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Title";
             // 
-            // textBox1
+            // txtTitle
             // 
-            this.textBox1.Location = new System.Drawing.Point(26, 32);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(402, 20);
-            this.textBox1.TabIndex = 1;
+            this.txtTitle.Location = new System.Drawing.Point(26, 32);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(402, 20);
+            this.txtTitle.TabIndex = 1;
             // 
-            // textBox2
+            // txtAlbum
             // 
-            this.textBox2.Location = new System.Drawing.Point(26, 87);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(402, 20);
-            this.textBox2.TabIndex = 2;
+            this.txtAlbum.Location = new System.Drawing.Point(26, 87);
+            this.txtAlbum.Name = "txtAlbum";
+            this.txtAlbum.Size = new System.Drawing.Size(402, 20);
+            this.txtAlbum.TabIndex = 2;
             // 
             // label2
             // 
@@ -78,12 +78,12 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Album";
             // 
-            // textBox3
+            // txtArtist
             // 
-            this.textBox3.Location = new System.Drawing.Point(26, 143);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(402, 20);
-            this.textBox3.TabIndex = 4;
+            this.txtArtist.Location = new System.Drawing.Point(26, 143);
+            this.txtArtist.Name = "txtArtist";
+            this.txtArtist.Size = new System.Drawing.Size(402, 20);
+            this.txtArtist.TabIndex = 4;
             // 
             // label3
             // 
@@ -103,19 +103,19 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "Length";
             // 
-            // textBox4
+            // txtLenMin
             // 
-            this.textBox4.Location = new System.Drawing.Point(26, 194);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(33, 20);
-            this.textBox4.TabIndex = 7;
+            this.txtLenMin.Location = new System.Drawing.Point(26, 194);
+            this.txtLenMin.Name = "txtLenMin";
+            this.txtLenMin.Size = new System.Drawing.Size(33, 20);
+            this.txtLenMin.TabIndex = 7;
             // 
-            // textBox5
+            // txtLenSec
             // 
-            this.textBox5.Location = new System.Drawing.Point(69, 194);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(33, 20);
-            this.textBox5.TabIndex = 8;
+            this.txtLenSec.Location = new System.Drawing.Point(69, 194);
+            this.txtLenSec.Name = "txtLenSec";
+            this.txtLenSec.Size = new System.Drawing.Size(33, 20);
+            this.txtLenSec.TabIndex = 8;
             // 
             // label5
             // 
@@ -136,12 +136,12 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Genre";
             // 
-            // textBox6
+            // txtGenre
             // 
-            this.textBox6.Location = new System.Drawing.Point(121, 194);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 20);
-            this.textBox6.TabIndex = 11;
+            this.txtGenre.Location = new System.Drawing.Point(121, 194);
+            this.txtGenre.Name = "txtGenre";
+            this.txtGenre.Size = new System.Drawing.Size(100, 20);
+            this.txtGenre.TabIndex = 11;
             // 
             // btnAccept
             // 
@@ -177,17 +177,17 @@
             this.ClientSize = new System.Drawing.Size(457, 317);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAccept);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.txtGenre);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.txtLenSec);
+            this.Controls.Add(this.txtLenMin);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtArtist);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtAlbum);
+            this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.label1);
             this.Name = "FormSong";
             this.Text = "New Song";
@@ -199,17 +199,17 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        public System.Windows.Forms.TextBox txtTitle;
+        public System.Windows.Forms.TextBox txtAlbum;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox3;
+        public System.Windows.Forms.TextBox txtArtist;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
+        public System.Windows.Forms.TextBox txtLenMin;
+        public System.Windows.Forms.TextBox txtLenSec;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox6;
+        public System.Windows.Forms.TextBox txtGenre;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;

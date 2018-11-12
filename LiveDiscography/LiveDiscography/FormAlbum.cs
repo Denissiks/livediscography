@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,14 +13,19 @@ namespace LiveDiscography
 {
     public partial class FormAlbum : Form
     {
+
+
         public FormAlbum()
         {
             InitializeComponent();
+
         }
 
-        eMonth mes;
-        String[] meses=new String[13];
-        
+
+        String[] meses = new String[12] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+
+
+
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
@@ -27,13 +33,10 @@ namespace LiveDiscography
         }
 
         private void FormAlbum_Load(object sender, EventArgs e)
-        {
-            
-            for(int i=0;i<13;i++)
-            {
-                
-            }
-            
+        {         
+
+            cbMonth.DataSource = meses;
+          
             this.Refresh();
         }
     }

@@ -9,12 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace LiveDiscography
 {
-    public partial class Form1 : Form
+    public partial class FormPrincipal : Form
     {
-        public Form1()
+        public FormPrincipal()
         {
             InitializeComponent();
         }
@@ -24,10 +25,12 @@ namespace LiveDiscography
         FormSong fS = new FormSong();
         Artist addedArtist;
         Song addedSong;
+        Album addedAlbum;
         ArrayList artists = new ArrayList();
         ArrayList albums = new ArrayList();
         ArrayList songs = new ArrayList();
         int i;
+
 
         FileStream fs;
         BinaryWriter bw;
@@ -40,21 +43,37 @@ namespace LiveDiscography
 
         private void btnAddArtist_Click(object sender, EventArgs e)
         {
+
             if (fA.ShowDialog() == DialogResult.OK)
             {
-                if (artists.Contains(fA.Name))
+                if (artists.Count > 0)
                 {
+                    for (int j = 0; j < artists.Count; j++)
+                    {
+                        if (((Artist)artists[i]).Name.Equals(fA.txtArName))
+                        {
+                            MessageBox.Show("Ese artista ya existe en la base de datos");
+                        }
+                        else
+                        {
+                            addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+                            artists.Add(addedArtist);
+                            lbArtist.Items.Add(addedArtist.Name);
+                            lbArtist.Refresh();
+                            this.writeFile();
 
+                        }
+                    }
                 }
                 else
                 {
                     addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
                     artists.Add(addedArtist);
                     lbArtist.Items.Add(addedArtist.Name);
+                    lbArtist.Refresh();
+                    this.writeFile();
                 }
 
-                lbArtist.Refresh();
-                this.writeFile();
             }
         }
 
@@ -62,18 +81,15 @@ namespace LiveDiscography
         {
             for (i = 0; i < artists.Count; i++)
             {
-
                 if (lbArtist.SelectedIndex.Equals(i))
                 {
-
-
-                    txtArtistInfoDisplay.Text = ((Artist)artists[i]).Name + "\n" + ((Artist)artists[i]).Genre + "\n" + ((Artist)artists[i]).Labels + "\n" + ((Artist)artists[i]).RealName;
-
+                    txtArtistInfoDisplay.Clear();
+                    txtArtistInfoDisplay.Text += "Name: " + ((Artist)artists[i]).Name;
+                    txtArtistInfoDisplay.Text += Environment.NewLine + "Genre: " + ((Artist)artists[i]).Genre;
+                    txtArtistInfoDisplay.Text += Environment.NewLine + "Record Label: " + ((Artist)artists[i]).Labels;
+                    txtArtistInfoDisplay.Text += Environment.NewLine + "Real Name: " + ((Artist)artists[i]).RealName;
 
                 }
-
-
-
             }
 
             foreach (Artist a in artists)
@@ -82,22 +98,70 @@ namespace LiveDiscography
             }
         }
 
+        private void lbAlbum_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (i = 0; i < albums.Count; i++)
+            {
+                if (lbAlbum.SelectedIndex.Equals(i))
+                {
+                    txtAlbumInfoDisplay.Clear();
+                    txtAlbumInfoDisplay.Text += "Title: " + ((Album)albums[i]).Title;
+                    txtAlbumInfoDisplay.Text += Environment.NewLine + "Artist: " + ((Album)albums[i]).AlbumArtist;
+                    txtAlbumInfoDisplay.Text += Environment.NewLine + "Release Date: " + ((Album)albums[i]).ReleaseYear + " / " + ((Album)albums[i]).ReleaseMonth + " / " + ((Album)albums[i]).ReleaseDay;
+                    txtAlbumInfoDisplay.Text += Environment.NewLine + "Country: " + ((Album)albums[i]).ReleaseCountry;
+                    txtAlbumInfoDisplay.Text += Environment.NewLine + "Record Label: " + ((Album)albums[i]).RecordLabel;
+                    txtAlbumInfoDisplay.Text += Environment.NewLine + "Genre: " + ((Album)albums[i]).Genre;
+                    txtAlbumInfoDisplay.Text += Environment.NewLine + "Total Length: " + ((Album)albums[i]).TotalMinLength;
+                    txtAlbumInfoDisplay.Text += Environment.NewLine + "Number Of Tracks: " + ((Album)albums[i]).NumberOfTracks;
+
+                }
+            }
+
+            foreach (Artist a in artists)
+            {
+
+            }
+        }
+
+        private void lbSong_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (i = 0; i < songs.Count; i++)
+            {
+                if (lbSong.SelectedIndex.Equals(i))
+                {
+                    txtSongInfoDisplay.Clear();
+                    txtSongInfoDisplay.Text += "Title: " + ((Song)songs[i]).SongName;
+                    txtSongInfoDisplay.Text += Environment.NewLine + "Album: " + ((Song)songs[i]).SongAlbum;
+                    txtSongInfoDisplay.Text += Environment.NewLine + "Artist: " + ((Song)songs[i]).SongArtist;
+                    txtSongInfoDisplay.Text += Environment.NewLine + "Length: " + ((Song)songs[i]).MinLength + ":" + ((Song)songs[i]).SecLength;
+                    txtSongInfoDisplay.Text += Environment.NewLine + "Genre: " + ((Song)songs[i]).Genre;
+                }
+            }
+
+            foreach (Song s in songs)
+            {
+
+            }
+        }
+
+
+
         private void btnAddSong_Click(object sender, EventArgs e)
         {
             if (fS.ShowDialog() == DialogResult.OK)
             {
-                if (songs.Contains(fA.Name))
+                if (songs.Contains(fS.Name))
                 {
 
                 }
                 else
                 {
-                    //addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
-                    //artists.Add(addedArtist);
-                    //lbArtist.Items.Add(addedArtist.Name);
+                    addedSong = new Song(fS.txtTitle.Text, fS.txtAlbum.Text, fS.txtArtist.Text, Convert.ToInt16(fS.txtLenMin.Text), Convert.ToInt16(fS.txtLenSec.Text), fS.txtGenre.Text);
+                    songs.Add(addedSong);
+                    lbSong.Items.Add(addedSong.SongName);
                 }
 
-                lbArtist.Refresh();
+                lbSong.Refresh();
             }
 
         }
@@ -112,15 +176,16 @@ namespace LiveDiscography
                 }
                 else
                 {
-                    //addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
-                    //artists.Add(addedArtist);
-                    //lbArtist.Items.Add(addedArtist.Name);
+                    addedAlbum = new Album(fAl.txtTitle.Text, Convert.ToInt16(fAl.txtYear.Text), eMonth.January, Convert.ToInt16(fAl.txtDay.Text), fAl.txtCountry.Text, fAl.txtRecordLabel.Text, fAl.txtGenre.Text, Convert.ToInt16(fAl.txtLength.Text), Convert.ToInt16(fAl.txtTracks.Text), fAl.txtArtist.Text);
+                    albums.Add(addedAlbum);
+                    lbAlbum.Items.Add(addedAlbum.Title);
                 }
 
-                lbArtist.Refresh();
+                lbAlbum.Refresh();
             }
         }
 
+        //Metodo de guardado
         private void writeFile()
         {
             try
@@ -150,12 +215,12 @@ namespace LiveDiscography
                     bw.Write(((Album)albums[i]).Genre);
                     bw.Write(((Album)albums[i]).TotalMinLength);
                     bw.Write(((Album)albums[i]).NumberOfTracks);
-                    bw.Write(((Album)albums[i]).AlbumArtist.Name);
+                    bw.Write(((Album)albums[i]).AlbumArtist);
                 }
 
                 //Despues guardamos los primitivos de cada cancion
                 for (i = 0; i < songs.Count; i++)
-                {                    
+                {
                     bw.Write(((Song)songs[i]).SongName);
                     bw.Write(((Song)songs[i]).SongAlbum);
                     bw.Write(((Song)songs[i]).SongArtist);
@@ -172,6 +237,7 @@ namespace LiveDiscography
             }
         }
 
+        //Metodo de lectura
         private void readFile()
         {
             try
@@ -189,5 +255,7 @@ namespace LiveDiscography
                 MessageBox.Show("Fallo al leer", "Error detectado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
+
+
     }
 }

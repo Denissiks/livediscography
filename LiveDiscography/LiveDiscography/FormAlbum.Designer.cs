@@ -28,43 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.txtYear = new System.Windows.Forms.TextBox();
             this.cbMonth = new System.Windows.Forms.ComboBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtDay = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.txtCountry = new System.Windows.Forms.TextBox();
+            this.txtRecordLabel = new System.Windows.Forms.TextBox();
+            this.txtGenre = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.txtLength = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.txtTracks = new System.Windows.Forms.TextBox();
+            this.txtArtist = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // textBox1
+            // txtTitle
             // 
-            this.textBox1.Location = new System.Drawing.Point(29, 36);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(299, 20);
-            this.textBox1.TabIndex = 0;
+            this.txtTitle.Location = new System.Drawing.Point(29, 36);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(299, 20);
+            this.txtTitle.TabIndex = 0;
             // 
-            // textBox2
+            // txtYear
             // 
-            this.textBox2.Location = new System.Drawing.Point(30, 128);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 1;
+            this.txtYear.Location = new System.Drawing.Point(30, 128);
+            this.txtYear.Name = "txtYear";
+            this.txtYear.Size = new System.Drawing.Size(100, 20);
+            this.txtYear.TabIndex = 1;
             // 
             // cbMonth
             // 
@@ -74,12 +74,12 @@
             this.cbMonth.Size = new System.Drawing.Size(100, 21);
             this.cbMonth.TabIndex = 2;
             // 
-            // textBox3
+            // txtDay
             // 
-            this.textBox3.Location = new System.Drawing.Point(242, 127);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(87, 20);
-            this.textBox3.TabIndex = 3;
+            this.txtDay.Location = new System.Drawing.Point(242, 127);
+            this.txtDay.Name = "txtDay";
+            this.txtDay.Size = new System.Drawing.Size(87, 20);
+            this.txtDay.TabIndex = 3;
             // 
             // label1
             // 
@@ -117,26 +117,26 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Day";
             // 
-            // textBox4
+            // txtCountry
             // 
-            this.textBox4.Location = new System.Drawing.Point(30, 180);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(140, 20);
-            this.textBox4.TabIndex = 8;
+            this.txtCountry.Location = new System.Drawing.Point(30, 180);
+            this.txtCountry.Name = "txtCountry";
+            this.txtCountry.Size = new System.Drawing.Size(140, 20);
+            this.txtCountry.TabIndex = 8;
             // 
-            // textBox5
+            // txtRecordLabel
             // 
-            this.textBox5.Location = new System.Drawing.Point(176, 180);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(153, 20);
-            this.textBox5.TabIndex = 9;
+            this.txtRecordLabel.Location = new System.Drawing.Point(176, 180);
+            this.txtRecordLabel.Name = "txtRecordLabel";
+            this.txtRecordLabel.Size = new System.Drawing.Size(153, 20);
+            this.txtRecordLabel.TabIndex = 9;
             // 
-            // textBox6
+            // txtGenre
             // 
-            this.textBox6.Location = new System.Drawing.Point(30, 234);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 20);
-            this.textBox6.TabIndex = 10;
+            this.txtGenre.Location = new System.Drawing.Point(30, 234);
+            this.txtGenre.Name = "txtGenre";
+            this.txtGenre.Size = new System.Drawing.Size(100, 20);
+            this.txtGenre.TabIndex = 10;
             // 
             // label5
             // 
@@ -165,12 +165,12 @@
             this.label7.TabIndex = 13;
             this.label7.Text = "Genre";
             // 
-            // textBox7
+            // txtLength
             // 
-            this.textBox7.Location = new System.Drawing.Point(137, 233);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(100, 20);
-            this.textBox7.TabIndex = 14;
+            this.txtLength.Location = new System.Drawing.Point(137, 233);
+            this.txtLength.Name = "txtLength";
+            this.txtLength.Size = new System.Drawing.Size(100, 20);
+            this.txtLength.TabIndex = 14;
             // 
             // label8
             // 
@@ -190,19 +190,19 @@
             this.label9.TabIndex = 16;
             this.label9.Text = "Tracks";
             // 
-            // textBox8
+            // txtTracks
             // 
-            this.textBox8.Location = new System.Drawing.Point(244, 233);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(85, 20);
-            this.textBox8.TabIndex = 17;
+            this.txtTracks.Location = new System.Drawing.Point(244, 233);
+            this.txtTracks.Name = "txtTracks";
+            this.txtTracks.Size = new System.Drawing.Size(85, 20);
+            this.txtTracks.TabIndex = 17;
             // 
-            // textBox9
+            // txtArtist
             // 
-            this.textBox9.Location = new System.Drawing.Point(29, 80);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(299, 20);
-            this.textBox9.TabIndex = 18;
+            this.txtArtist.Location = new System.Drawing.Point(29, 80);
+            this.txtArtist.Name = "txtArtist";
+            this.txtArtist.Size = new System.Drawing.Size(299, 20);
+            this.txtArtist.TabIndex = 18;
             // 
             // label10
             // 
@@ -243,25 +243,25 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.textBox9);
-            this.Controls.Add(this.textBox8);
+            this.Controls.Add(this.txtArtist);
+            this.Controls.Add(this.txtTracks);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.textBox7);
+            this.Controls.Add(this.txtLength);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.txtGenre);
+            this.Controls.Add(this.txtRecordLabel);
+            this.Controls.Add(this.txtCountry);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtDay);
             this.Controls.Add(this.cbMonth);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtYear);
+            this.Controls.Add(this.txtTitle);
             this.Name = "FormAlbum";
             this.Text = "New Album";
             this.Load += new System.EventHandler(this.FormAlbum_Load);
@@ -272,25 +272,25 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.ComboBox cbMonth;
-        private System.Windows.Forms.TextBox textBox3;
+        public System.Windows.Forms.TextBox txtTitle;
+        public System.Windows.Forms.TextBox txtYear;
+        public System.Windows.Forms.ComboBox cbMonth;
+        public System.Windows.Forms.TextBox txtDay;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
+        public System.Windows.Forms.TextBox txtCountry;
+        public System.Windows.Forms.TextBox txtRecordLabel;
+        public System.Windows.Forms.TextBox txtGenre;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox7;
+        public System.Windows.Forms.TextBox txtLength;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox9;
+        public System.Windows.Forms.TextBox txtTracks;
+        public System.Windows.Forms.TextBox txtArtist;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Button btnCancel;
