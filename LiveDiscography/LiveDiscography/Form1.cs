@@ -30,6 +30,7 @@ namespace LiveDiscography
         ArrayList albums = new ArrayList();
         ArrayList songs = new ArrayList();
         int i;
+        bool flag;
 
 
         FileStream fs;
@@ -43,26 +44,41 @@ namespace LiveDiscography
 
         private void btnAddArtist_Click(object sender, EventArgs e)
         {
+            flag = true;
 
             if (fA.ShowDialog() == DialogResult.OK)
             {
+                flag = true;
                 if (artists.Count > 0)
                 {
                     for (int j = 0; j < artists.Count; j++)
                     {
-                        if (((Artist)artists[i]).Name.Equals(fA.txtArName))
+                        addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+
+
+                        if (fA.txtArName.Equals(((Artist)artists[j]).Name))
                         {
-                            MessageBox.Show("Ese artista ya existe en la base de datos");
+                            
+                            flag = false;
+
                         }
                         else
                         {
-                            addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
-                            artists.Add(addedArtist);
-                            lbArtist.Items.Add(addedArtist.Name);
-                            lbArtist.Refresh();
-                            this.writeFile();
+                            flag = true;
 
                         }
+                    }
+
+                    if (flag == false)
+                    {
+                        artists.Add(addedArtist);
+                        lbArtist.Items.Add(addedArtist.Name);
+                        lbArtist.Refresh();
+                        this.writeFile();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ese artista ya existe en la base de datos");
                     }
                 }
                 else
