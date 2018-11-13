@@ -32,7 +32,17 @@ namespace LiveDiscography
         int i;
         bool flag;
 
+        DataSet ds = new DataSet();
+        
+        String conexionn = "";
+        SqlDataAdapter daArtists;
+        SqlDataAdapter daAlbums;
 
+        String instArtist = "SELECT*FROM ARTISTS";
+
+
+        SqlCommand getSqlArtists = null;
+        SqlConnection conexion = null;
         FileStream fs;
         BinaryWriter bw;
         BinaryReader br;
@@ -41,6 +51,40 @@ namespace LiveDiscography
         {
 
         }
+
+        private void creaDataset()
+        {
+            conexion = new SqlConnection(conexionn);
+            daArtists = new SqlDataAdapter("SELECT*FROM ARTISTS",conexionn);
+            daArtists = new SqlDataAdapter("SELECT*FROM ALBUMS", conexionn);
+            conexion.Open();
+
+            daArtists.Fill(ds, "Artists");
+            daAlbums.Fill(ds, "Albums");
+            conexion.Close();
+
+        }
+
+        private Boolean comprobar(Artist artista)
+        {
+            bool flagComp = false;
+
+            for (int i = 0; i < artists.Count; i++)
+            {
+                if (artista.Name.Equals(((Artist)artists[i]).Name))
+                {
+                    flagComp = true;
+                }
+                else
+                {
+                    flagComp = false;
+                }
+            }
+            return flagComp;
+
+        }
+
+
 
         private void btnAddArtist_Click(object sender, EventArgs e)
         {
@@ -55,29 +99,17 @@ namespace LiveDiscography
                     {
                         addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
 
-                        if (addedArtist.Name.Equals(((Artist)artists[j]).Name))
+                        if (comprobar(addedArtist) == false)
                         {
-                            
-                            flag = true;
-                           
+                            artists.Add(addedArtist);
+                            lbArtist.Items.Add(addedArtist.Name);
+                            lbArtist.Refresh();
+                            this.writeFile();
                         }
                         else
                         {
-                            flag = false;
-                            
+                            MessageBox.Show("Ese artista ya existe en la base de datos" + Environment.NewLine + "No se permiten duplicados");
                         }
-                    }
-
-                    if (flag == false)
-                    {
-                        artists.Add(addedArtist);
-                        lbArtist.Items.Add(addedArtist.Name);
-                        lbArtist.Refresh();
-                        this.writeFile();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Ese artista ya existe en la base de datos"+Environment.NewLine +"No se permiten duplicados");
                     }
                 }
                 else
@@ -87,6 +119,7 @@ namespace LiveDiscography
                     lbArtist.Items.Add(addedArtist.Name);
                     lbArtist.Refresh();
                     this.writeFile();
+
                 }
 
             }
