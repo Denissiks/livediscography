@@ -9,7 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using System.Data.Sql;
+using MySql.Data.MySqlClient;
 
 namespace LiveDiscography
 {
@@ -32,17 +33,20 @@ namespace LiveDiscography
         int i;
         bool flag;
 
+        Artist loadedArtist;
+
         DataSet ds = new DataSet();
-        
-        String conexionn = "";
-        SqlDataAdapter daArtists;
-        SqlDataAdapter daAlbums;
+
+
+        String conexionn = "Server=127.0.0.1; Database=livediscography; Uid=root; Pwd= ";
+        MySqlDataAdapter daArtists=new MySqlDataAdapter();
+        MySqlDataAdapter daAlbums=new MySqlDataAdapter();
 
         String instArtist = "SELECT*FROM ARTISTS";
 
 
-        SqlCommand getSqlArtists = null;
-        SqlConnection conexion = null;
+        MySqlCommand getSqlArtists = null;
+        MySqlConnection conexion = null;
         FileStream fs;
         BinaryWriter bw;
         BinaryReader br;
@@ -52,17 +56,33 @@ namespace LiveDiscography
 
         }
 
+        private void pruebaConect()
+        {
+            conexion = new MySqlConnection(conexionn);
+            conexion.Open();
+        }
+
+        private void pruebaDesconect()
+        {
+            conexion.Close();
+        }
+
         private void creaDataset()
         {
-            conexion = new SqlConnection(conexionn);
-            daArtists = new SqlDataAdapter("SELECT*FROM ARTISTS",conexionn);
-            daArtists = new SqlDataAdapter("SELECT*FROM ALBUMS", conexionn);
-            conexion.Open();
+            conexion = new MySqlConnection(conexionn);
+            try
+            {
+                conexion.Open();
+                daArtists = new MySqlDataAdapter("SELECT * FROM ARTISTS", conexionn);
+                daAlbums = new MySqlDataAdapter("SELECT * FROM ALBUMS", conexionn);
+                daArtists.Fill(ds, "Artists");
+                daAlbums.Fill(ds, "Albums");
+            }
+            finally
+            {
 
-            daArtists.Fill(ds, "Artists");
-            daAlbums.Fill(ds, "Albums");
-            conexion.Close();
-
+                conexion.Close(); 
+            }
         }
 
         private Boolean comprobar(Artist artista)
@@ -224,12 +244,28 @@ namespace LiveDiscography
                 }
                 else
                 {
-                    addedAlbum = new Album(fAl.txtTitle.Text, Convert.ToInt16(fAl.txtYear.Text), eMonth.January, Convert.ToInt16(fAl.txtDay.Text), fAl.txtCountry.Text, fAl.txtRecordLabel.Text, fAl.txtGenre.Text, Convert.ToInt16(fAl.txtLength.Text), Convert.ToInt16(fAl.txtTracks.Text), fAl.txtArtist.Text);
+                    addedAlbum = new Album(fAl.txtTitle.Text, Convert.ToInt16(fAl.txtYear.Text), (fAl.cbMonth.SelectedIndex).ToString(), Convert.ToInt16(fAl.txtDay.Text), fAl.txtCountry.Text, fAl.txtRecordLabel.Text, fAl.txtGenre.Text, Convert.ToInt16(fAl.txtLength.Text), Convert.ToInt16(fAl.txtTracks.Text), fAl.txtArtist.Text);
                     albums.Add(addedAlbum);
                     lbAlbum.Items.Add(addedAlbum.Title);
                 }
 
                 lbAlbum.Refresh();
+            }
+        }
+
+        //Metodo de guardado en database
+        private void addToDataTable(DataTable d)
+        {
+            if (d.TableName.Equals("artists"))
+            {
+                
+            }else if (d.TableName.Equals("albums"))
+            {
+
+            }
+            else
+            {
+
             }
         }
 
@@ -304,6 +340,70 @@ namespace LiveDiscography
             }
         }
 
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
 
+        }
+
+        private void FormPrincipal_Load(object sender, EventArgs e)
+        {
+
+            creaDataset();
+            foreach(DataTable dt in ds.Tables)
+            {
+                if (dt.TableName.Equals("Artists"))
+                {
+                    foreach(DataRow dr in dt.Rows)
+                    {
+                        addedArtist = new Artist(dr[0]+"", dr[1]+"", dr[2]+"", dr[3]+"");
+                        artists.Add(addedArtist);
+                        lbArtist.Items.Add(addedArtist.Name);
+                       
+                    }
+                }
+
+                if (dt.TableName.Equals("Albums"))
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        addedAlbum = new Album(dr[0] + "", Convert.ToInt32(dr[1]) , dr[2] + "", Convert.ToInt32(dr[3]) , dr[4] + "", dr[5] + "", dr[6] + "", Convert.ToInt32(dr[7]) , Convert.ToInt32(dr[8]), dr[9] + "");
+                        albums.Add(addedAlbum);
+                        lbAlbum.Items.Add(addedAlbum.Title);
+                        
+                    }
+                }
+                if (dt.TableName.Equals("Songs"))
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        addedSong= new Song(dr[0] + "", dr[1]+"", dr[2] + "", Convert.ToInt32(dr[3]), Convert.ToInt32(dr[4]), dr[5] + "");
+                        songs.Add(addedSong);
+                        lbSong.Items.Add(addedSong.SongName);
+
+                    }
+                }
+
+            }
+            this.Refresh();
+        }
+
+        private void btnPrueba_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //pruebaConect();
+              // creaDataset();
+            }
+            catch
+            {
+                MessageBox.Show("Conexión fallida");
+            }
+
+        }
+
+        private void btnDesconectar_Click(object sender, EventArgs e)
+        {
+            pruebaDesconect();
+        }
     }
 }

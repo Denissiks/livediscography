@@ -50,6 +50,8 @@
             this.btnDelArtist = new System.Windows.Forms.Button();
             this.btnDelAlbum = new System.Windows.Forms.Button();
             this.btnDelSong = new System.Windows.Forms.Button();
+            this.btnPrueba = new System.Windows.Forms.Button();
+            this.btnDesconectar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,6 +65,7 @@
             this.menuStrip1.Size = new System.Drawing.Size(798, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // archivoToolStripMenuItem
             // 
@@ -247,11 +250,33 @@
             this.btnDelSong.Text = "Delete Song";
             this.btnDelSong.UseVisualStyleBackColor = true;
             // 
+            // btnPrueba
+            // 
+            this.btnPrueba.Location = new System.Drawing.Point(357, 371);
+            this.btnPrueba.Name = "btnPrueba";
+            this.btnPrueba.Size = new System.Drawing.Size(75, 23);
+            this.btnPrueba.TabIndex = 18;
+            this.btnPrueba.Text = "Conectar";
+            this.btnPrueba.UseVisualStyleBackColor = true;
+            this.btnPrueba.Click += new System.EventHandler(this.btnPrueba_Click);
+            // 
+            // btnDesconectar
+            // 
+            this.btnDesconectar.Location = new System.Drawing.Point(438, 371);
+            this.btnDesconectar.Name = "btnDesconectar";
+            this.btnDesconectar.Size = new System.Drawing.Size(92, 23);
+            this.btnDesconectar.TabIndex = 19;
+            this.btnDesconectar.Text = "Desconectar";
+            this.btnDesconectar.UseVisualStyleBackColor = true;
+            this.btnDesconectar.Click += new System.EventHandler(this.btnDesconectar_Click);
+            // 
             // FormPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 422);
+            this.Controls.Add(this.btnDesconectar);
+            this.Controls.Add(this.btnPrueba);
             this.Controls.Add(this.btnDelSong);
             this.Controls.Add(this.btnDelAlbum);
             this.Controls.Add(this.btnDelArtist);
@@ -271,6 +296,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormPrincipal";
             this.Text = "LiveDiscography v1.0";
+            this.Load += new System.EventHandler(this.FormPrincipal_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -302,6 +328,8 @@
         private System.Windows.Forms.Button btnDelArtist;
         private System.Windows.Forms.Button btnDelAlbum;
         private System.Windows.Forms.Button btnDelSong;
+        private System.Windows.Forms.Button btnPrueba;
+        private System.Windows.Forms.Button btnDesconectar;
     }
 }
 
