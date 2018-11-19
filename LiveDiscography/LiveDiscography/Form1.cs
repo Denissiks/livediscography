@@ -20,53 +20,34 @@ namespace LiveDiscography
         {
             InitializeComponent();
         }
-
+        //Formularios Secundarios
         FormArtist fA = new FormArtist();
         FormAlbum fAl = new FormAlbum();
         FormSong fS = new FormSong();
+
+        //Clases de objetos
         Artist addedArtist;
         Song addedSong;
         Album addedAlbum;
+
+        //Contenedores
         ArrayList artists = new ArrayList();
         ArrayList albums = new ArrayList();
         ArrayList songs = new ArrayList();
+
+        //Variables
         int i;
-        bool flag;
+        Boolean flag;
 
-        Artist loadedArtist;
-
+        //SQL
         DataSet ds = new DataSet();
-
-
         String conexionn = "Server=127.0.0.1; Database=livediscography; Uid=root; Pwd= ";
-        MySqlDataAdapter daArtists=new MySqlDataAdapter();
-        MySqlDataAdapter daAlbums=new MySqlDataAdapter();
-
-        String instArtist = "SELECT*FROM ARTISTS";
-
-
-        MySqlCommand getSqlArtists = null;
+        MySqlDataAdapter daArtists = new MySqlDataAdapter();
+        MySqlDataAdapter daAlbums = new MySqlDataAdapter();
+        MySqlDataAdapter daSongs = new MySqlDataAdapter();
         MySqlConnection conexion = null;
-        FileStream fs;
-        BinaryWriter bw;
-        BinaryReader br;
-
-        private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pruebaConect()
-        {
-            conexion = new MySqlConnection(conexionn);
-            conexion.Open();
-        }
-
-        private void pruebaDesconect()
-        {
-            conexion.Close();
-        }
-
+        MySqlCommandBuilder objCommandBuilder = null;
+        //Creación de DataSet a partir de Database
         private void creaDataset()
         {
             conexion = new MySqlConnection(conexionn);
@@ -75,16 +56,18 @@ namespace LiveDiscography
                 conexion.Open();
                 daArtists = new MySqlDataAdapter("SELECT * FROM ARTISTS", conexionn);
                 daAlbums = new MySqlDataAdapter("SELECT * FROM ALBUMS", conexionn);
+                daSongs = new MySqlDataAdapter("SELECT * FROM SONGS", conexionn);
                 daArtists.Fill(ds, "Artists");
                 daAlbums.Fill(ds, "Albums");
+                daSongs.Fill(ds, "Songs");
             }
             finally
             {
-
-                conexion.Close(); 
+                conexion.Close();
             }
         }
 
+        //Comprobación de duplicados
         private Boolean comprobar(Artist artista)
         {
             bool flagComp = false;
@@ -101,11 +84,9 @@ namespace LiveDiscography
                 }
             }
             return flagComp;
-
         }
 
-
-
+        //Evento "Click" del botón Add New Artist
         private void btnAddArtist_Click(object sender, EventArgs e)
         {
             flag = true;
@@ -115,22 +96,29 @@ namespace LiveDiscography
                 flag = true;
                 if (artists.Count > 0)
                 {
-                    for (int j = 0; j < artists.Count; j++)
-                    {
-                        addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+                    addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
 
-                        if (comprobar(addedArtist) == false)
+                    if (comprobar(addedArtist) == false)
+                    {
+                        artists.Add(addedArtist);
+                        lbArtist.Items.Add(addedArtist.Name);
+
+                        foreach (DataTable dtr in ds.Tables)
                         {
-                            artists.Add(addedArtist);
-                            lbArtist.Items.Add(addedArtist.Name);
-                            lbArtist.Refresh();
-                            this.writeFile();
+                            if (dtr.TableName.Equals("Artists"))
+                            {
+                                this.addToDataTable(dtr, addedArtist);
+                            }
                         }
-                        else
-                        {
-                            MessageBox.Show("Ese artista ya existe en la base de datos" + Environment.NewLine + "No se permiten duplicados");
-                        }
+
+                        lbArtist.Refresh();
+                        //this.writeFile();
                     }
+                    else
+                    {
+                        MessageBox.Show("Ese artista ya existe en la base de datos" + Environment.NewLine + "No se permiten duplicados");
+                    }
+
                 }
                 else
                 {
@@ -138,13 +126,68 @@ namespace LiveDiscography
                     artists.Add(addedArtist);
                     lbArtist.Items.Add(addedArtist.Name);
                     lbArtist.Refresh();
-                    this.writeFile();
-
                 }
-
             }
         }
 
+        //Evento "Click" del botón Add New Song
+        private void btnAddSong_Click(object sender, EventArgs e)
+        {
+            if (fS.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    addedSong = new Song(fS.txtTitle.Text, fS.txtAlbum.Text, fS.txtArtist.Text, Convert.ToInt16(fS.txtLenMin.Text), Convert.ToInt16(fS.txtLenSec.Text), fS.txtGenre.Text);
+                    songs.Add(addedSong);
+                    lbSong.Items.Add(addedSong.SongName);
+                }
+                catch
+                {
+                    MessageBox.Show("Numeric values can't include letters or characters");
+                }
+
+                foreach (DataTable dtr in ds.Tables)
+                {
+                    if (dtr.TableName.Equals("Songs"))
+                    {
+                        this.addToDataTable(dtr, addedSong);
+                    }
+                }
+
+                lbSong.Refresh();
+            }
+        }
+
+        //Evento "Click" del botón Add New Album
+        private void btnAddAlbum_Click(object sender, EventArgs e)
+        {
+            if (fAl.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    addedAlbum = new Album(fAl.txtTitle.Text, Convert.ToInt16(fAl.txtYear.Text), (fAl.cbMonth.SelectedItem).ToString(), Convert.ToInt16(fAl.txtDay.Text), fAl.txtCountry.Text, fAl.txtRecordLabel.Text, fAl.txtGenre.Text, Convert.ToInt16(fAl.txtLength.Text), Convert.ToInt16(fAl.txtTracks.Text), fAl.txtArtist.Text);
+                    albums.Add(addedAlbum);
+                    lbAlbum.Items.Add(addedAlbum.Title);
+                }
+                catch
+                {
+                    MessageBox.Show("Numeric values can't include letters or characters");
+                }
+
+
+
+                foreach (DataTable dtr in ds.Tables)
+                {
+                    if (dtr.TableName.Equals("Albums"))
+                    {
+                        this.addToDataTable(dtr, addedAlbum);
+                    }
+                }
+                lbAlbum.Refresh();
+            }
+        }
+
+        //Evento de cambio de índice seleccionado en la listbox de Artistas
         private void lbArtist_SelectedIndexChanged(object sender, EventArgs e)
         {
             for (i = 0; i < artists.Count; i++)
@@ -156,16 +199,11 @@ namespace LiveDiscography
                     txtArtistInfoDisplay.Text += Environment.NewLine + "Genre: " + ((Artist)artists[i]).Genre;
                     txtArtistInfoDisplay.Text += Environment.NewLine + "Record Label: " + ((Artist)artists[i]).Labels;
                     txtArtistInfoDisplay.Text += Environment.NewLine + "Real Name: " + ((Artist)artists[i]).RealName;
-
                 }
-            }
-
-            foreach (Artist a in artists)
-            {
-
             }
         }
 
+        //Evento de cambio de índice en la listbox de Albums
         private void lbAlbum_SelectedIndexChanged(object sender, EventArgs e)
         {
             for (i = 0; i < albums.Count; i++)
@@ -181,16 +219,11 @@ namespace LiveDiscography
                     txtAlbumInfoDisplay.Text += Environment.NewLine + "Genre: " + ((Album)albums[i]).Genre;
                     txtAlbumInfoDisplay.Text += Environment.NewLine + "Total Length: " + ((Album)albums[i]).TotalMinLength;
                     txtAlbumInfoDisplay.Text += Environment.NewLine + "Number Of Tracks: " + ((Album)albums[i]).NumberOfTracks;
-
                 }
-            }
-
-            foreach (Artist a in artists)
-            {
-
             }
         }
 
+        //Evento de cambio de índice en la listbox de Songs
         private void lbSong_SelectedIndexChanged(object sender, EventArgs e)
         {
             for (i = 0; i < songs.Count; i++)
@@ -205,160 +238,139 @@ namespace LiveDiscography
                     txtSongInfoDisplay.Text += Environment.NewLine + "Genre: " + ((Song)songs[i]).Genre;
                 }
             }
-
-            foreach (Song s in songs)
-            {
-
-            }
-        }
-
-
-
-        private void btnAddSong_Click(object sender, EventArgs e)
-        {
-            if (fS.ShowDialog() == DialogResult.OK)
-            {
-                if (songs.Contains(fS.Name))
-                {
-
-                }
-                else
-                {
-                    addedSong = new Song(fS.txtTitle.Text, fS.txtAlbum.Text, fS.txtArtist.Text, Convert.ToInt16(fS.txtLenMin.Text), Convert.ToInt16(fS.txtLenSec.Text), fS.txtGenre.Text);
-                    songs.Add(addedSong);
-                    lbSong.Items.Add(addedSong.SongName);
-                }
-
-                lbSong.Refresh();
-            }
-
-        }
-
-        private void btnAddAlbum_Click(object sender, EventArgs e)
-        {
-            if (fAl.ShowDialog() == DialogResult.OK)
-            {
-                if (songs.Contains(fA.Name))
-                {
-
-                }
-                else
-                {
-                    addedAlbum = new Album(fAl.txtTitle.Text, Convert.ToInt16(fAl.txtYear.Text), (fAl.cbMonth.SelectedIndex).ToString(), Convert.ToInt16(fAl.txtDay.Text), fAl.txtCountry.Text, fAl.txtRecordLabel.Text, fAl.txtGenre.Text, Convert.ToInt16(fAl.txtLength.Text), Convert.ToInt16(fAl.txtTracks.Text), fAl.txtArtist.Text);
-                    albums.Add(addedAlbum);
-                    lbAlbum.Items.Add(addedAlbum.Title);
-                }
-
-                lbAlbum.Refresh();
-            }
         }
 
         //Metodo de guardado en database
-        private void addToDataTable(DataTable d)
+        private void addToDataTable(DataTable d, Object objeto)
         {
-            if (d.TableName.Equals("artists"))
-            {
-                
-            }else if (d.TableName.Equals("albums"))
+            DataRow newRow;
+
+            switch (d.TableName)
             {
 
-            }
-            else
-            {
+                case "Artists":
+                    Artist dbArtist = (Artist)objeto;
+                    newRow = ds.Tables["Artists"].NewRow();
+                    newRow["Name"] = dbArtist.Name.ToString();
+                    newRow["Genre"] = dbArtist.Genre.ToString();
+                    newRow["Labels"] = dbArtist.Labels.ToString();
+                    newRow["RealName"] = dbArtist.RealName.ToString();
+                    conexion.Open();
+                    ds.Tables["Artists"].Rows.Add(newRow);
+                    objCommandBuilder = new MySqlCommandBuilder(daArtists);
+                    try
+                    {
+                        daArtists.Update(ds, "Artists");
+                    }
+                    catch
+                    {
 
+                    }
+
+                    conexion.Close();
+                    break;
+
+                case "Albums":
+                    Album dbAlbum = (Album)objeto;
+                    newRow = ds.Tables["Albums"].NewRow();
+                    newRow["Title"] = dbAlbum.Title.ToString();
+                    newRow["ReleaseYear"] = Convert.ToInt32(dbAlbum.ReleaseYear);
+                    newRow["ReleaseMonth"] = dbAlbum.ReleaseMonth.ToString();
+                    newRow["ReleaseDay"] = Convert.ToInt32(dbAlbum.ReleaseDay);
+                    newRow["ReleaseCountry"] = dbAlbum.ReleaseCountry.ToString();
+                    newRow["RecordLabel"] = dbAlbum.RecordLabel.ToString();
+                    newRow["Genre"] = dbAlbum.Genre.ToString();
+                    newRow["TotalMinLength"] = Convert.ToInt32(dbAlbum.TotalMinLength);
+                    newRow["NumberOfTracks"] = Convert.ToInt32(dbAlbum.NumberOfTracks);
+                    newRow["AlbumArtist"] = dbAlbum.AlbumArtist.ToString();
+                    ds.Tables["Albums"].Rows.Add(newRow);
+                    conexion.Open();
+                    objCommandBuilder = new MySqlCommandBuilder(daAlbums);
+                    try
+                    {
+                        daAlbums.Update(ds, "Albums");
+                    }
+                    catch
+                    {
+
+                    }
+
+                    conexion.Close();
+                    break;
+
+                case "Songs":
+                    Song dbSong = (Song)objeto;
+                    newRow = ds.Tables["Songs"].NewRow();
+                    newRow["Name"] = dbSong.SongName.ToString();
+                    newRow["Album"] = dbSong.SongAlbum.ToString();
+                    newRow["Artist"] = dbSong.SongArtist.ToString();
+                    newRow["Minlength"] = Convert.ToInt32(dbSong.MinLength);
+                    newRow["Seclength"] = Convert.ToInt32(dbSong.SecLength);
+                    newRow["Genre"] = dbSong.Genre.ToString();
+                    ds.Tables["Songs"].Rows.Add(newRow);
+                    conexion.Open();
+                    objCommandBuilder = new MySqlCommandBuilder(daSongs);
+                    try
+                    {
+                        daSongs.Update(ds, "Songs");
+                    }
+                    catch
+                    {
+
+                    }
+
+                    conexion.Close();
+                    break;
             }
         }
 
-        //Metodo de guardado
-        private void writeFile()
+        //Metodo de borrado de database
+        private void deleteFromDataTable(DataTable d, int indexx)
         {
-            try
+            switch (d.TableName)
             {
-                fs = new FileStream("C:\\Users\\Usuario\\artistData.bin", FileMode.OpenOrCreate, FileAccess.Write);
-                bw = new BinaryWriter(fs);
+                case "Artists":
 
-                //Primero guardamos los primitivos de cada artista
-                for (i = 0; i < artists.Count; i++)
-                {
+                    d.Rows[indexx].Delete();
+                    conexion.Open();
+                    objCommandBuilder = new MySqlCommandBuilder(daArtists);
+                    daArtists.Update(ds, "Artists");
+                    conexion.Close();
+                    break;
 
-                    bw.Write(((Artist)artists[i]).Name);
-                    bw.Write(((Artist)artists[i]).Genre);
-                    bw.Write(((Artist)artists[i]).Labels);
-                    bw.Write(((Artist)artists[i]).RealName);
-                }
+                case "Albums":
 
-                //Despues guardamos los primitivos de cada album
-                for (i = 0; i < albums.Count; i++)
-                {
-                    bw.Write(((Album)albums[i]).Title);
-                    bw.Write(((Album)albums[i]).ReleaseYear);
-                    bw.Write(((Album)albums[i]).ToString());
-                    bw.Write(((Album)albums[i]).ReleaseDay);
-                    bw.Write(((Album)albums[i]).ReleaseCountry);
-                    bw.Write(((Album)albums[i]).RecordLabel);
-                    bw.Write(((Album)albums[i]).Genre);
-                    bw.Write(((Album)albums[i]).TotalMinLength);
-                    bw.Write(((Album)albums[i]).NumberOfTracks);
-                    bw.Write(((Album)albums[i]).AlbumArtist);
-                }
+                    d.Rows[indexx].Delete();
+                    conexion.Open();
+                    objCommandBuilder = new MySqlCommandBuilder(daAlbums);
+                    daAlbums.Update(ds, "Albums");
+                    conexion.Close();
+                    break;
 
-                //Despues guardamos los primitivos de cada cancion
-                for (i = 0; i < songs.Count; i++)
-                {
-                    bw.Write(((Song)songs[i]).SongName);
-                    bw.Write(((Song)songs[i]).SongAlbum);
-                    bw.Write(((Song)songs[i]).SongArtist);
-                    bw.Write(((Song)songs[i]).MinLength);
-                    bw.Write(((Song)songs[i]).SecLength);
-                    bw.Write(((Song)songs[i]).Genre);
-                }
-                bw.Close();
-                fs.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Imposible guardar", "Error detectado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                case "Songs":
+
+                    d.Rows[indexx].Delete();
+                    conexion.Open();
+                    objCommandBuilder = new MySqlCommandBuilder(daSongs);
+                    daSongs.Update(ds, "Songs");
+                    conexion.Close();
+                    break;
             }
         }
 
-        //Metodo de lectura
-        private void readFile()
-        {
-            try
-            {
-                fs = new FileStream("C:\\Users\\Usuario\\artistData.bin", FileMode.Open, FileAccess.Read);
-                br = new BinaryReader(fs);
-
-                while (br.Read() != -1)
-                {
-
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Fallo al leer", "Error detectado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
+        //Evento de carga del formulario principal
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
-
             creaDataset();
-            foreach(DataTable dt in ds.Tables)
+            foreach (DataTable dt in ds.Tables)
             {
                 if (dt.TableName.Equals("Artists"))
                 {
-                    foreach(DataRow dr in dt.Rows)
+                    foreach (DataRow dr in dt.Rows)
                     {
-                        addedArtist = new Artist(dr[0]+"", dr[1]+"", dr[2]+"", dr[3]+"");
+                        addedArtist = new Artist(dr[0] + "", dr[1] + "", dr[2] + "", dr[3] + "");
                         artists.Add(addedArtist);
                         lbArtist.Items.Add(addedArtist.Name);
-                       
                     }
                 }
 
@@ -366,44 +378,92 @@ namespace LiveDiscography
                 {
                     foreach (DataRow dr in dt.Rows)
                     {
-                        addedAlbum = new Album(dr[0] + "", Convert.ToInt32(dr[1]) , dr[2] + "", Convert.ToInt32(dr[3]) , dr[4] + "", dr[5] + "", dr[6] + "", Convert.ToInt32(dr[7]) , Convert.ToInt32(dr[8]), dr[9] + "");
+                        addedAlbum = new Album(dr[0] + "", Convert.ToInt32(dr[1]), dr[2] + "", Convert.ToInt32(dr[3]), dr[4] + "", dr[5] + "", dr[6] + "", Convert.ToInt32(dr[7]), Convert.ToInt32(dr[8]), dr[9] + "");
                         albums.Add(addedAlbum);
                         lbAlbum.Items.Add(addedAlbum.Title);
-                        
                     }
                 }
                 if (dt.TableName.Equals("Songs"))
                 {
                     foreach (DataRow dr in dt.Rows)
                     {
-                        addedSong= new Song(dr[0] + "", dr[1]+"", dr[2] + "", Convert.ToInt32(dr[3]), Convert.ToInt32(dr[4]), dr[5] + "");
+                        addedSong = new Song(dr[0] + "", dr[1] + "", dr[2] + "", Convert.ToInt32(dr[3]), Convert.ToInt32(dr[4]), dr[5] + "");
                         songs.Add(addedSong);
                         lbSong.Items.Add(addedSong.SongName);
 
                     }
                 }
-
             }
             this.Refresh();
         }
 
-        private void btnPrueba_Click(object sender, EventArgs e)
+        //Evento "Click" del botón Delete Artist 
+        private void btnDelArtist_Click(object sender, EventArgs e)
         {
-            try
+            if (MessageBox.Show("Are you sure about deleting this element?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
             {
-                //pruebaConect();
-              // creaDataset();
-            }
-            catch
-            {
-                MessageBox.Show("Conexión fallida");
+                try
+                {
+                    deleteFromDataTable(ds.Tables["Artists"], lbArtist.SelectedIndex);
+                    artists.RemoveAt(lbArtist.SelectedIndex);
+                    lbArtist.Items.RemoveAt(lbArtist.SelectedIndex);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("None artist selected, please chose one");
+                }
             }
 
+            lbArtist.Refresh();
         }
 
-        private void btnDesconectar_Click(object sender, EventArgs e)
+        //Evento "Click" del botón Delete Album 
+        private void btnDelAlbum_Click(object sender, EventArgs e)
         {
-            pruebaDesconect();
+            if (MessageBox.Show("Are you sure about deleting this element?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
+            {
+                try
+                {
+                    deleteFromDataTable(ds.Tables["Albums"], lbAlbum.SelectedIndex);
+                    albums.RemoveAt(lbAlbum.SelectedIndex);
+                    lbAlbum.Items.RemoveAt(lbAlbum.SelectedIndex);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("None album selected, please chose one");
+                }
+            }
+
+            lbAlbum.Refresh();
+        }
+
+        //Evento "Click" del botón Delete Song 
+        private void btnDelSong_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure about deleting this element?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
+            {
+                try
+                {
+                    deleteFromDataTable(ds.Tables["Songs"], lbSong.SelectedIndex);
+                    songs.RemoveAt(lbSong.SelectedIndex);
+                    lbSong.Items.RemoveAt(lbSong.SelectedIndex);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("None song selected, please chose one");
+                }
+            }
+
+            lbSong.Refresh();
+        }
+
+        //Evento "Click" que muestra la información del programa
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Original idea & development by Denis Siks, 2018","LiveDiscography Ver. 1.0");
         }
     }
 }

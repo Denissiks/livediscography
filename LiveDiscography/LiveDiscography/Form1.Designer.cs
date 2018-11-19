@@ -28,12 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPrincipal));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.artistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.songToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.albumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteArtistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbArtist = new System.Windows.Forms.ListBox();
             this.btnAddArtist = new System.Windows.Forms.Button();
@@ -50,8 +56,7 @@
             this.btnDelArtist = new System.Windows.Forms.Button();
             this.btnDelAlbum = new System.Windows.Forms.Button();
             this.btnDelSong = new System.Windows.Forms.Button();
-            this.btnPrueba = new System.Windows.Forms.Button();
-            this.btnDesconectar = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,13 +64,13 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archivoToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(798, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // archivoToolStripMenuItem
             // 
@@ -82,35 +87,67 @@
             this.songToolStripMenuItem,
             this.albumToolStripMenuItem});
             this.nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.nuevoToolStripMenuItem.Text = "New...";
-            this.nuevoToolStripMenuItem.Click += new System.EventHandler(this.nuevoToolStripMenuItem_Click);
             // 
             // artistToolStripMenuItem
             // 
             this.artistToolStripMenuItem.Name = "artistToolStripMenuItem";
-            this.artistToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.artistToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.artistToolStripMenuItem.Text = "Artist";
             this.artistToolStripMenuItem.Click += new System.EventHandler(this.btnAddArtist_Click);
             // 
             // songToolStripMenuItem
             // 
             this.songToolStripMenuItem.Name = "songToolStripMenuItem";
-            this.songToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.songToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.songToolStripMenuItem.Text = "Song";
             this.songToolStripMenuItem.Click += new System.EventHandler(this.btnAddSong_Click);
             // 
             // albumToolStripMenuItem
             // 
             this.albumToolStripMenuItem.Name = "albumToolStripMenuItem";
-            this.albumToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.albumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.albumToolStripMenuItem.Text = "Album";
+            this.albumToolStripMenuItem.Click += new System.EventHandler(this.btnAddAlbum_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteAlbumToolStripMenuItem,
+            this.deleteSongToolStripMenuItem,
+            this.deleteArtistToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // deleteAlbumToolStripMenuItem
+            // 
+            this.deleteAlbumToolStripMenuItem.Name = "deleteAlbumToolStripMenuItem";
+            this.deleteAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteAlbumToolStripMenuItem.Text = "Delete Album";
+            this.deleteAlbumToolStripMenuItem.Click += new System.EventHandler(this.btnDelAlbum_Click);
+            // 
+            // deleteSongToolStripMenuItem
+            // 
+            this.deleteSongToolStripMenuItem.Name = "deleteSongToolStripMenuItem";
+            this.deleteSongToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteSongToolStripMenuItem.Text = "Delete Song";
+            this.deleteSongToolStripMenuItem.Click += new System.EventHandler(this.btnDelSong_Click);
+            // 
+            // deleteArtistToolStripMenuItem
+            // 
+            this.deleteArtistToolStripMenuItem.Name = "deleteArtistToolStripMenuItem";
+            this.deleteArtistToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteArtistToolStripMenuItem.Text = "Delete Artist";
+            this.deleteArtistToolStripMenuItem.Click += new System.EventHandler(this.btnDelArtist_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.aboutToolStripMenuItem.Text = "About...";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // lbArtist
             // 
@@ -128,6 +165,7 @@
             this.btnAddArtist.Size = new System.Drawing.Size(103, 23);
             this.btnAddArtist.TabIndex = 2;
             this.btnAddArtist.Text = "Add New Artist";
+            this.toolTip1.SetToolTip(this.btnAddArtist, "Add a new artist to the database");
             this.btnAddArtist.UseVisualStyleBackColor = true;
             this.btnAddArtist.Click += new System.EventHandler(this.btnAddArtist_Click);
             // 
@@ -138,6 +176,7 @@
             this.btnAddSong.Size = new System.Drawing.Size(103, 23);
             this.btnAddSong.TabIndex = 3;
             this.btnAddSong.Text = "Add New Song";
+            this.toolTip1.SetToolTip(this.btnAddSong, "Add a new song to the database");
             this.btnAddSong.UseVisualStyleBackColor = true;
             this.btnAddSong.Click += new System.EventHandler(this.btnAddSong_Click);
             // 
@@ -148,6 +187,7 @@
             this.btnAddAlbum.Size = new System.Drawing.Size(103, 23);
             this.btnAddAlbum.TabIndex = 4;
             this.btnAddAlbum.Text = "Add New Album";
+            this.toolTip1.SetToolTip(this.btnAddAlbum, "Add new album to the database");
             this.btnAddAlbum.UseVisualStyleBackColor = true;
             this.btnAddAlbum.Click += new System.EventHandler(this.btnAddAlbum_Click);
             // 
@@ -230,7 +270,9 @@
             this.btnDelArtist.Size = new System.Drawing.Size(103, 23);
             this.btnDelArtist.TabIndex = 15;
             this.btnDelArtist.Text = "Delete Artist";
+            this.toolTip1.SetToolTip(this.btnDelArtist, "Delete selected artist from the database");
             this.btnDelArtist.UseVisualStyleBackColor = true;
+            this.btnDelArtist.Click += new System.EventHandler(this.btnDelArtist_Click);
             // 
             // btnDelAlbum
             // 
@@ -239,7 +281,9 @@
             this.btnDelAlbum.Size = new System.Drawing.Size(103, 23);
             this.btnDelAlbum.TabIndex = 16;
             this.btnDelAlbum.Text = "Delete Album";
+            this.toolTip1.SetToolTip(this.btnDelAlbum, "Delete selected album from the database");
             this.btnDelAlbum.UseVisualStyleBackColor = true;
+            this.btnDelAlbum.Click += new System.EventHandler(this.btnDelAlbum_Click);
             // 
             // btnDelSong
             // 
@@ -248,35 +292,15 @@
             this.btnDelSong.Size = new System.Drawing.Size(103, 23);
             this.btnDelSong.TabIndex = 17;
             this.btnDelSong.Text = "Delete Song";
+            this.toolTip1.SetToolTip(this.btnDelSong, "Delete selected song from the database");
             this.btnDelSong.UseVisualStyleBackColor = true;
-            // 
-            // btnPrueba
-            // 
-            this.btnPrueba.Location = new System.Drawing.Point(357, 371);
-            this.btnPrueba.Name = "btnPrueba";
-            this.btnPrueba.Size = new System.Drawing.Size(75, 23);
-            this.btnPrueba.TabIndex = 18;
-            this.btnPrueba.Text = "Conectar";
-            this.btnPrueba.UseVisualStyleBackColor = true;
-            this.btnPrueba.Click += new System.EventHandler(this.btnPrueba_Click);
-            // 
-            // btnDesconectar
-            // 
-            this.btnDesconectar.Location = new System.Drawing.Point(438, 371);
-            this.btnDesconectar.Name = "btnDesconectar";
-            this.btnDesconectar.Size = new System.Drawing.Size(92, 23);
-            this.btnDesconectar.TabIndex = 19;
-            this.btnDesconectar.Text = "Desconectar";
-            this.btnDesconectar.UseVisualStyleBackColor = true;
-            this.btnDesconectar.Click += new System.EventHandler(this.btnDesconectar_Click);
+            this.btnDelSong.Click += new System.EventHandler(this.btnDelSong_Click);
             // 
             // FormPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 422);
-            this.Controls.Add(this.btnDesconectar);
-            this.Controls.Add(this.btnPrueba);
             this.Controls.Add(this.btnDelSong);
             this.Controls.Add(this.btnDelAlbum);
             this.Controls.Add(this.btnDelArtist);
@@ -293,6 +317,7 @@
             this.Controls.Add(this.btnAddArtist);
             this.Controls.Add(this.lbArtist);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormPrincipal";
             this.Text = "LiveDiscography v1.0";
@@ -328,8 +353,11 @@
         private System.Windows.Forms.Button btnDelArtist;
         private System.Windows.Forms.Button btnDelAlbum;
         private System.Windows.Forms.Button btnDelSong;
-        private System.Windows.Forms.Button btnPrueba;
-        private System.Windows.Forms.Button btnDesconectar;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteArtistToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteAlbumToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteSongToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
