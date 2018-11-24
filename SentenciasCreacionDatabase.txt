@@ -1,0 +1,62 @@
+CREATE DATABASE IF NOT EXISTS `livediscography` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `livediscography`;
+
+CREATE TABLE `albums` (
+	`Title` VARCHAR(50) NOT NULL DEFAULT 'empty',
+	`ReleaseYear` INT(11) NULL DEFAULT NULL,
+	`ReleaseMonth` VARCHAR(50) NULL DEFAULT NULL,
+	`ReleaseDay` INT(11) NULL DEFAULT NULL,
+	`ReleaseCountry` VARCHAR(50) NULL DEFAULT NULL,
+	`RecordLabel` VARCHAR(50) NULL DEFAULT NULL,
+	`Genre` VARCHAR(50) NULL DEFAULT NULL,
+	`TotalMinLength` INT(11) NULL DEFAULT NULL,
+	`NumberOfTracks` INT(11) NULL DEFAULT NULL,
+	`AlbumArtist` VARCHAR(50) NULL DEFAULT NULL,
+	PRIMARY KEY (`Title`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `artists` (
+	`Name` VARCHAR(50) NOT NULL DEFAULT 'vacio',
+	`Genre` VARCHAR(50) NULL DEFAULT NULL,
+	`Labels` VARCHAR(50) NULL DEFAULT NULL,
+	`RealName` VARCHAR(50) NULL DEFAULT NULL,
+	PRIMARY KEY (`Name`)
+)
+COMMENT='\r\n'
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `songs` (
+	`Name` VARCHAR(50) NOT NULL DEFAULT 'empty',
+	`Album` VARCHAR(50) NULL DEFAULT NULL,
+	`Artist` VARCHAR(50) NULL DEFAULT NULL,
+	`Minlength` INT(11) NULL DEFAULT NULL,
+	`Seclength` INT(11) NULL DEFAULT NULL,
+	`Genre` VARCHAR(50) NULL DEFAULT NULL,
+	PRIMARY KEY (`Name`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+;
+
+INSERT INTO `albums` (`Title`, `ReleaseYear`, `ReleaseMonth`, `ReleaseDay`, `ReleaseCountry`, `RecordLabel`, `Genre`, `TotalMinLength`, `NumberOfTracks`, `AlbumArtist`) VALUES
+	('Astroworld', 2018, 'October', 3, 'USA', 'Columbia/Grand Hustle', 'Trap', 58, 17, 'Travis Scott'),
+	('Dime Trap', 2018, 'October', 5, 'USA', 'Columbia/Grand Hustle', 'Trap', 60, 15, 'T.I.'),
+	('Neva Left ', 2018, 'May', 19, 'USA', 'Doggystyle Records', 'Gangsta Rap', 61, 16, 'Snoop Dogg'),
+	('Luv Is Rage 2', 2017, 'August', 25, 'USA', 'Atlantic Records', 'Trap', 69, 16, 'Lil Uzi Vert'),
+	('Life\'s a Trip', 2018, 'August', 10, 'USA', 'TenThousand Projects', 'Trap', 46, 14, 'Trippie Redd');
+
+INSERT INTO `artists` (`Name`, `Genre`, `Labels`, `RealName`) VALUES
+	('Travis Scott', 'Trap', 'Columbia/Grand Hustle', 'Jacques Berman Webster II'),
+	('Snoop Dogg', 'Gangsta Rap', 'All The Time Entertainment', 'Calvin Cordozar Broadus Jr.'),
+	('T.I.', 'Trap', 'Columbia/Grand Hustle', 'Clifford Joseph Harris Jr.'),
+	('Trippie Redd', 'Trap', 'Universal Music Group', 'Michael Lamar White IV'),
+	('Lil Uzi Vert', 'Trap', 'Atlantic Records', 'Symere Woods');
+
+INSERT INTO `songs` (`Name`, `Album`, `Artist`, `Minlength`, `Seclength`, `Genre`) VALUES
+	('We Alright', 'The Rise Of An Empire', 'Young Money', 5, 21, 'Gangsta Rap'),
+	('Fukk Sleep ft. FKA twigs', 'Fukk Sleep (Single)', 'A$AP Rocky', NULL, NULL, NULL);
