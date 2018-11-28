@@ -21,126 +21,146 @@ namespace LiveDiscography
         public FormShowSongs()
         {
             InitializeComponent();
-        }  
+        }
+
+        private void resetRadioButtons()
+        {            
+            rbAlbumsByArtist.Checked = false;
+            rbSongsByArtist.Checked = false;
+            rbArtistsByLabel.Checked = false;
+            rbSongsByGenre.Checked = false;
+            rbSongsByAlbum.Checked = false;
+            rbAlbumsByGenre.Checked = false;
+            lbFieldName.Text = "Select a filter option";
+            lbFieldName.Refresh();
+        }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            
             lbSearchItem.Items.Clear();
             string toSearch = txtSearch.Text;
-
-            switch (checkedRb.Name)
+            try
             {
-                case "rbAlbumsByArtist":
-                    
-                    this.Refresh();
-                    foreach (Album aLs in searchAlbums)
-                    {
-                        if (aLs.AlbumArtist.Equals(toSearch))
+                switch (checkedRb.Name)
+                {
+                    case "rbAlbumsByArtist":
+
+                        this.Refresh();
+                        foreach (Album aLs in searchAlbums)
                         {
-                            lbSearchItem.Items.Add(aLs.Title);
-                            lbSearchItem.Refresh();
+                            if (aLs.AlbumArtist.Equals(toSearch))
+                            {
+                                lbSearchItem.Items.Add(aLs.Title);
+                                lbSearchItem.Refresh();
+                            }
                         }
-                    }
 
-                    lblFoundElements.Visible = true;
-                    lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
+                        lblFoundElements.Visible = true;
+                        lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
 
-                    if (lbSearchItem.Items.Count == 0)
-                    {
-                        MessageBox.Show("No elements found");
-                    }
-                    break;
-                case "rbSongsByArtist":
-                    foreach (Song s in searchSongs)
-                    {
-                        if (s.SongArtist.Equals(toSearch))
+                        if (lbSearchItem.Items.Count == 0)
                         {
-                            lbSearchItem.Items.Add(s.SongName);
-                            lbSearchItem.Refresh();
+                            MessageBox.Show("No elements found");
                         }
-                    }
-
-                    lblFoundElements.Visible = true;
-                    lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
-
-                    if (lbSearchItem.Items.Count == 0)
-                    {
-                        MessageBox.Show("No elements found");
-                    }
-                    break;
-                case "rbArtistsByLabel":
-                    foreach (Artist arS in searchArtists)
-                    {
-                        if (arS.Labels.Equals(toSearch))
+                        break;
+                    case "rbSongsByArtist":
+                        foreach (Song s in searchSongs)
                         {
-                            lbSearchItem.Items.Add(arS.Name);
-                            lbSearchItem.Refresh();
+                            if (s.SongArtist.Equals(toSearch))
+                            {
+                                lbSearchItem.Items.Add(s.SongName);
+                                lbSearchItem.Refresh();
+                            }
                         }
-                    }
 
-                    lblFoundElements.Visible = true;
-                    lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
+                        lblFoundElements.Visible = true;
+                        lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
 
-                    if (lbSearchItem.Items.Count == 0)
-                    {
-                        MessageBox.Show("No elements found");
-                    }
-                    break;
-                case "rbSongsByGenre":
-                    foreach (Song s in searchSongs)
-                    {
-                        if (s.Genre.Equals(toSearch))
+                        if (lbSearchItem.Items.Count == 0)
                         {
-                            lbSearchItem.Items.Add(s.SongName);
-                            lbSearchItem.Refresh();
+                            MessageBox.Show("No elements found");
                         }
-                    }
-
-                    lblFoundElements.Visible = true;
-                    lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
-
-                    if (lbSearchItem.Items.Count == 0)
-                    {
-                        MessageBox.Show("No elements found");
-                    }
-                    break;
-                case "rbSongsByAlbum":
-                    foreach (Song s in searchSongs)
-                    {
-                        if (s.SongAlbum.Equals(toSearch))
+                        break;
+                    case "rbArtistsByLabel":
+                        foreach (Artist arS in searchArtists)
                         {
-                            lbSearchItem.Items.Add(s.SongName);
-                            lbSearchItem.Refresh();
+                            if (arS.Labels.Equals(toSearch))
+                            {
+                                lbSearchItem.Items.Add(arS.Name);
+                                lbSearchItem.Refresh();
+                            }
                         }
-                    }
 
-                    lblFoundElements.Visible = true;
-                    lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
+                        lblFoundElements.Visible = true;
+                        lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
 
-                    if (lbSearchItem.Items.Count == 0)
-                    {
-                        MessageBox.Show("No elements found");
-                    }
-                    break;
-                case "rbAlbumsByGenre":
-                    foreach (Album aLs in searchAlbums)
-                    {
-                        if (aLs.Genre.Equals(toSearch))
+                        if (lbSearchItem.Items.Count == 0)
                         {
-                            lbSearchItem.Items.Add(aLs.Title);
-                            lbSearchItem.Refresh();
+                            MessageBox.Show("No elements found");
                         }
-                    }
+                        break;
+                    case "rbSongsByGenre":
+                        foreach (Song s in searchSongs)
+                        {
+                            if (s.Genre.Equals(toSearch))
+                            {
+                                lbSearchItem.Items.Add(s.SongName);
+                                lbSearchItem.Refresh();
+                            }
+                        }
 
-                    lblFoundElements.Visible = true;
-                    lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
+                        lblFoundElements.Visible = true;
+                        lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
 
-                    if (lbSearchItem.Items.Count == 0)
-                    {
-                        MessageBox.Show("No elements found");
-                    }
-                    break;
-            }            
+                        if (lbSearchItem.Items.Count == 0)
+                        {
+                            MessageBox.Show("No elements found");
+                        }
+                        break;
+                    case "rbSongsByAlbum":
+                        foreach (Song s in searchSongs)
+                        {
+                            if (s.SongAlbum.Equals(toSearch))
+                            {
+                                lbSearchItem.Items.Add(s.SongName);
+                                lbSearchItem.Refresh();
+                            }
+                        }
+
+                        lblFoundElements.Visible = true;
+                        lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
+
+                        if (lbSearchItem.Items.Count == 0)
+                        {
+                            MessageBox.Show("No elements found");
+                        }
+                        break;
+                    case "rbAlbumsByGenre":
+                        foreach (Album aLs in searchAlbums)
+                        {
+                            if (aLs.Genre.Equals(toSearch))
+                            {
+                                lbSearchItem.Items.Add(aLs.Title);
+                                lbSearchItem.Refresh();
+                            }
+                        }
+
+                        lblFoundElements.Visible = true;
+                        lblFoundElements.Text = "Search found " + lbSearchItem.Items.Count + " songs";
+
+                        if (lbSearchItem.Items.Count == 0)
+                        {
+                            MessageBox.Show("No elements found");
+                        }
+                        break;
+                }
+            }
+            catch (System.NullReferenceException nrEx)
+            {
+                MessageBox.Show("No search filter type selected");
+            }
+
         }
 
         private void btnAcceptShow_Click(object sender, EventArgs e)
@@ -173,6 +193,13 @@ namespace LiveDiscography
                     break;
             }
             lbFieldName.Refresh();
+        }
+
+        private void FormShowSongs_Load(object sender, EventArgs e)
+        {
+            this.resetRadioButtons();
+            
+            
         }
     }
 }

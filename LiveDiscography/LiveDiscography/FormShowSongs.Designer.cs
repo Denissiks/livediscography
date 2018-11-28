@@ -64,9 +64,9 @@
             this.lbFieldName.AutoSize = true;
             this.lbFieldName.Location = new System.Drawing.Point(12, 111);
             this.lbFieldName.Name = "lbFieldName";
-            this.lbFieldName.Size = new System.Drawing.Size(68, 13);
+            this.lbFieldName.Size = new System.Drawing.Size(103, 13);
             this.lbFieldName.TabIndex = 2;
-            this.lbFieldName.Text = "Album name:";
+            this.lbFieldName.Text = "Select a search filter";
             // 
             // btnSearch
             // 
@@ -199,6 +199,7 @@
             this.Name = "FormShowSongs";
             this.ShowIcon = false;
             this.Text = "Search";
+            this.Load += new System.EventHandler(this.FormShowSongs_Load);
             this.gbSearchType.ResumeLayout(false);
             this.gbSearchType.PerformLayout();
             this.ResumeLayout(false);

@@ -1,4 +1,4 @@
--- --------------------------------------------------------
+﻿-- --------------------------------------------------------
 -- Host:                         127.0.0.1
 -- Versión del servidor:         10.1.21-MariaDB - mariadb.org binary distribution
 -- SO del servidor:              Win32
@@ -38,7 +38,7 @@ INSERT INTO `albums` (`Title`, `ReleaseYear`, `ReleaseMonth`, `ReleaseDay`, `Rel
 	('Dime Trap', 2018, 'October', 5, 'USA', 'Columbia/Grand Hustle', 'Trap', 60, 15, 'T.I.'),
 	('Have A Nice Day', 2005, 'September', 20, 'USA', 'Universal', 'Hard Rock', 54, 15, 'Bon Jovi'),
 	('Hybrid Theory', 2003, 'January', 12, 'USA', 'Warner', 'Nu Metal', 126, 13, 'Linkin Park'),
-	('Life\'s a Trip', 2018, 'August', 10, 'USA', 'TenThousand Projects', 'Trap', 46, 14, 'Trippie Redd'),
+	('Life´s a Trip', 2018, 'August', 10, 'USA', 'TenThousand Projects', 'Trap', 46, 14, 'Trippie Redd'),
 	('Luv Is Rage 2', 2017, 'August', 25, 'USA', 'Atlantic Records', 'Trap', 69, 16, 'Lil Uzi Vert'),
 	('Neva Left ', 2018, 'May', 19, 'USA', 'Doggystyle Records', 'Gangsta Rap', 61, 16, 'Snoop Dogg');
 /*!40000 ALTER TABLE `albums` ENABLE KEYS */;

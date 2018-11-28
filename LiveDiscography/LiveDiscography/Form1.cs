@@ -588,7 +588,7 @@ namespace LiveDiscography
             }
 
 
-        }
+        }      
 
         //Evento "Click" del botón Edit Album
         private void btnEditAlbum_Click(object sender, EventArgs e)
@@ -597,8 +597,14 @@ namespace LiveDiscography
             {
                 Album editedAlbum;
                 string editedAlbumName = lbAlbum.SelectedItem.ToString();
+
+                if (editedAlbumName.Contains('\''))
+                {
+                    editedAlbumName= editedAlbumName.Replace('\'', '´');
+                }
+
                 fAl.Text = "Edit Album";
-                DataRow[] albumRow = ds.Tables["Albums"].Select("Title=\'" + lbAlbum.SelectedItem.ToString() + "\'");
+                DataRow[] albumRow = ds.Tables["Albums"].Select("Title=\'" + editedAlbumName + "\'");
                 int editLbItemIndex = lbAlbum.SelectedIndex;
 
                 foreach (Album eAl in albums)
@@ -623,7 +629,7 @@ namespace LiveDiscography
                 {
 
                     //MessageBox.Show(artistRow.Count() + "");
-                    albumRow[0]["Title"] = fAl.txtTitle.Text;
+                    albumRow[0]["Title"] = editedAlbumName;
                     albumRow[0]["ReleaseYear"] = fAl.txtYear.Text;
                     albumRow[0]["ReleaseMonth"] = fAl.cbMonth.SelectedItem.ToString();
                     albumRow[0]["ReleaseDay"] = fAl.txtDay.Text;
@@ -651,9 +657,9 @@ namespace LiveDiscography
                     albums.RemoveAt(lbAlbum.SelectedIndex);
                     albums.Insert(lbAlbum.SelectedIndex, editedAlbum);
 
-                    MessageBox.Show("Tamaño: " + albums.Count);
+                    //MessageBox.Show("Tamaño: " + albums.Count);
                     lbAlbum.Items.RemoveAt(lbAlbum.SelectedIndex);
-                    lbAlbum.Items.Insert(editLbItemIndex, fAl.txtTitle.Text);
+                    lbAlbum.Items.Insert(editLbItemIndex, editedAlbumName);
                     lbAlbum.Refresh();
 
                     lbAlbum.SetSelected(editLbItemIndex, true);
@@ -662,6 +668,10 @@ namespace LiveDiscography
             catch (System.NullReferenceException nrEx)
             {
                 MessageBox.Show("No album selected, please chose one");
+            }
+            catch (System.Data.SyntaxErrorException seEx)
+            {
+                MessageBox.Show("Please replace the character \' for a ´");
             }
         }
 
@@ -732,7 +742,7 @@ namespace LiveDiscography
             }
         }
 
-        //Evento "Click" del botón Search>Songs per album
+        //Evento "Click" del botón Search
         private void songsPerAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
             fSs.searchSongs = songs;
