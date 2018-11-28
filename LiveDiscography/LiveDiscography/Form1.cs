@@ -14,6 +14,7 @@ using MySql.Data.MySqlClient;
 
 namespace LiveDiscography
 {
+   
     public partial class FormPrincipal : Form
     {
         public FormPrincipal()
@@ -24,6 +25,7 @@ namespace LiveDiscography
         FormArtist fA = new FormArtist();
         FormAlbum fAl = new FormAlbum();
         FormSong fS = new FormSong();
+        FormShowSongs fSs = new FormShowSongs();
 
         //Clases de objetos
         Artist addedArtist;
@@ -31,9 +33,9 @@ namespace LiveDiscography
         Album addedAlbum;
 
         //Contenedores
-        ArrayList artists = new ArrayList();
-        ArrayList albums = new ArrayList();
-        ArrayList songs = new ArrayList();
+        public ArrayList artists = new ArrayList();
+        public ArrayList albums = new ArrayList();
+        public ArrayList songs = new ArrayList();
 
         //Variables
         int i;
@@ -91,6 +93,11 @@ namespace LiveDiscography
         private void btnAddArtist_Click(object sender, EventArgs e)
         {
             flag = true;
+            fA.Text = "New Artist";
+            fA.txtArName.Clear();
+            fA.txtArGenre.Clear();
+            fA.txtArLabel.Clear();
+            fA.txtArRealName.Clear();
 
             try
             {
@@ -142,6 +149,7 @@ namespace LiveDiscography
         //Evento "Click" del botón Add New Song
         private void btnAddSong_Click(object sender, EventArgs e)
         {
+
             try
             {
                 if (fS.ShowDialog() == DialogResult.OK)
@@ -178,6 +186,7 @@ namespace LiveDiscography
         //Evento "Click" del botón Add New Album
         private void btnAddAlbum_Click(object sender, EventArgs e)
         {
+            fAl.Text = "New Album";
             try
             {
                 if (fAl.ShowDialog() == DialogResult.OK)
@@ -270,7 +279,7 @@ namespace LiveDiscography
         private void addToDataTable(DataTable d, Object objeto)
         {
             DataRow newRow;
-  
+
             switch (d.TableName)
             {
 
@@ -515,6 +524,227 @@ namespace LiveDiscography
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Original idea & development by Denis Siks, 2018", "LiveDiscography Ver. 1.0");
+        }
+
+        //Evento "Click" del botón Edit Artist
+        private void btnEditArtist_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Artist editedArtist;
+                string editedArtistName = lbArtist.SelectedItem.ToString();
+                fA.Text = "Edit Artist";
+                DataRow[] artistRow = ds.Tables["Artists"].Select("Name=\'" + lbArtist.SelectedItem.ToString() + "\'");
+                int editLbItemIndex = lbArtist.SelectedIndex;
+
+                foreach (Artist eA in artists)
+                {
+                    if (eA.Name.Equals(editedArtistName))
+                    {
+                        fA.txtArName.Text = eA.Name;
+                        fA.txtArGenre.Text = eA.Genre;
+                        fA.txtArLabel.Text = eA.Labels;
+                        fA.txtArRealName.Text = eA.RealName;
+                    }
+                }
+
+                if (fA.ShowDialog() == DialogResult.OK)
+                {
+
+                    //MessageBox.Show(artistRow.Count() + "");
+                    artistRow[0]["Name"] = fA.txtArName.Text;
+                    artistRow[0]["Genre"] = fA.txtArGenre.Text;
+                    artistRow[0]["Labels"] = fA.txtArLabel.Text;
+                    artistRow[0]["RealName"] = fA.txtArRealName.Text;
+
+                    conexion.Open();
+
+                    objCommandBuilder = new MySqlCommandBuilder(daArtists);
+                    try
+                    {
+                        daArtists.Update(ds, "Artists");
+                    }
+                    catch
+                    {
+
+                    }
+
+                    conexion.Close();
+                    editedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+                    artists.RemoveAt(lbArtist.SelectedIndex);
+                    artists.Insert(lbArtist.SelectedIndex, editedArtist);
+
+                    MessageBox.Show("Tamaño: " + artists.Count);
+                    lbArtist.Items.RemoveAt(lbArtist.SelectedIndex);
+                    lbArtist.Items.Insert(editLbItemIndex, fA.txtArName.Text);
+                    lbArtist.Refresh();
+
+                    lbArtist.SetSelected(editLbItemIndex, true);
+                }
+            }
+            catch (System.NullReferenceException nrEx)
+            {
+                MessageBox.Show("None artist selected, please chose one");
+            }
+
+
+        }
+
+        //Evento "Click" del botón Edit Album
+        private void btnEditAlbum_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Album editedAlbum;
+                string editedAlbumName = lbAlbum.SelectedItem.ToString();
+                fAl.Text = "Edit Album";
+                DataRow[] albumRow = ds.Tables["Albums"].Select("Title=\'" + lbAlbum.SelectedItem.ToString() + "\'");
+                int editLbItemIndex = lbAlbum.SelectedIndex;
+
+                foreach (Album eAl in albums)
+                {
+                    if (eAl.Title.Equals(editedAlbumName))
+                    {
+                        fAl.txtTitle.Text = eAl.Title;
+                        fAl.txtYear.Text = eAl.ReleaseYear.ToString();
+                        fAl.cbMonth.Text = eAl.ReleaseMonth;
+                        fAl.txtDay.Text = eAl.ReleaseDay.ToString();
+                        fAl.txtCountry.Text = eAl.ReleaseCountry;
+                        fAl.txtRecordLabel.Text = eAl.RecordLabel;
+                        fAl.txtGenre.Text = eAl.Genre;
+                        fAl.txtLength.Text = eAl.TotalMinLength.ToString();
+                        fAl.txtTracks.Text = eAl.NumberOfTracks.ToString();
+                        fAl.txtArtist.Text = eAl.AlbumArtist;
+
+                    }
+                }
+
+                if (fAl.ShowDialog() == DialogResult.OK)
+                {
+
+                    //MessageBox.Show(artistRow.Count() + "");
+                    albumRow[0]["Title"] = fAl.txtTitle.Text;
+                    albumRow[0]["ReleaseYear"] = fAl.txtYear.Text;
+                    albumRow[0]["ReleaseMonth"] = fAl.cbMonth.SelectedItem.ToString();
+                    albumRow[0]["ReleaseDay"] = fAl.txtDay.Text;
+                    albumRow[0]["ReleaseCountry"] = fAl.txtCountry.Text;
+                    albumRow[0]["RecordLabel"] = fAl.txtRecordLabel.Text;
+                    albumRow[0]["Genre"] = fAl.txtGenre.Text;
+                    albumRow[0]["TotalMinLength"] = fAl.txtLength.Text;
+                    albumRow[0]["NumberOfTracks"] = fAl.txtTracks.Text;
+                    albumRow[0]["AlbumArtist"] = fAl.txtArtist.Text;
+
+                    conexion.Open();
+
+                    objCommandBuilder = new MySqlCommandBuilder(daAlbums);
+                    try
+                    {
+                        daAlbums.Update(ds, "Albums");
+                    }
+                    catch
+                    {
+
+                    }
+
+                    conexion.Close();
+                    editedAlbum = new Album(fAl.txtTitle.Text, Convert.ToInt32(fAl.txtYear.Text), fAl.cbMonth.SelectedItem.ToString(), Convert.ToInt32(fAl.txtDay.Text), fAl.txtCountry.Text, fAl.txtRecordLabel.Text, fAl.txtGenre.Text, Convert.ToInt32(fAl.txtLength.Text), Convert.ToInt32(fAl.txtTracks.Text), fAl.txtArtist.Text);
+                    albums.RemoveAt(lbAlbum.SelectedIndex);
+                    albums.Insert(lbAlbum.SelectedIndex, editedAlbum);
+
+                    MessageBox.Show("Tamaño: " + albums.Count);
+                    lbAlbum.Items.RemoveAt(lbAlbum.SelectedIndex);
+                    lbAlbum.Items.Insert(editLbItemIndex, fAl.txtTitle.Text);
+                    lbAlbum.Refresh();
+
+                    lbAlbum.SetSelected(editLbItemIndex, true);
+                }
+            }
+            catch (System.NullReferenceException nrEx)
+            {
+                MessageBox.Show("No album selected, please chose one");
+            }
+        }
+
+        //Evento "Click" del botón Edit Song
+        private void btnEditSong_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Song editedSong;
+                string editedSongName = lbSong.SelectedItem.ToString();
+                fS.Text = "Edit Song";
+                DataRow[] songRow = ds.Tables["Songs"].Select("Name=\'" + lbSong.SelectedItem.ToString() + "\'");
+                int editLbItemIndex = lbSong.SelectedIndex;
+
+                foreach (Song eS in songs)
+                {
+                    if (eS.SongName.Equals(editedSongName))
+                    {
+                        fS.txtTitle.Text = eS.SongName;
+                        fS.txtAlbum.Text = eS.SongAlbum;
+                        fS.txtArtist.Text = eS.SongArtist;
+                        fS.txtLenMin.Text = eS.MinLength.ToString();
+                        fS.txtLenSec.Text = eS.SecLength.ToString();
+                        fS.txtGenre.Text = eS.Genre;
+
+                    }
+                }
+
+                if (fS.ShowDialog() == DialogResult.OK)
+                {
+
+                    //MessageBox.Show(artistRow.Count() + "");
+                    songRow[0]["Name"] = fS.txtTitle.Text;
+                    songRow[0]["Album"] = fS.txtAlbum.Text;
+                    songRow[0]["Artist"] = fS.txtArtist.Text;
+                    songRow[0]["MinLength"] = fS.txtLenMin.Text;
+                    songRow[0]["SecLength"] = fS.txtLenSec.Text;
+                    songRow[0]["Genre"] = fS.txtGenre.Text;
+
+                    conexion.Open();
+
+                    objCommandBuilder = new MySqlCommandBuilder(daSongs);
+                    try
+                    {
+                        daSongs.Update(ds, "Songs");
+                    }
+                    catch
+                    {
+
+                    }
+
+                    conexion.Close();
+                    editedSong = new Song(fS.txtTitle.Text, fS.txtAlbum.Text, fS.txtArtist.Text, Convert.ToInt16(fS.txtLenMin.Text), Convert.ToInt16(fS.txtLenSec.Text), fS.txtGenre.Text);
+                    songs.RemoveAt(lbSong.SelectedIndex);
+                    songs.Insert(lbSong.SelectedIndex, editedSong);
+
+                    MessageBox.Show("Tamaño: " + songs.Count);
+                    lbSong.Items.RemoveAt(lbSong.SelectedIndex);
+                    lbSong.Items.Insert(editLbItemIndex, fS.txtTitle.Text);
+                    lbSong.Refresh();
+
+                    lbSong.SetSelected(editLbItemIndex, true);
+                }
+            }
+            catch (System.NullReferenceException nrEx)
+            {
+                MessageBox.Show("No song selected, please chose one");
+            }
+        }
+
+        //Evento "Click" del botón Search>Songs per album
+        private void songsPerAlbumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fSs.searchSongs = songs;
+            fSs.searchAlbums = albums;
+            fSs.searchArtists = artists;
+            fSs.txtSearch.Clear();
+            fSs.lbSearchItem.Items.Clear();
+            fSs.lblFoundElements.Visible = false;
+            if (fSs.ShowDialog() == DialogResult.OK)
+            {
+
+            }
         }
     }
 }
