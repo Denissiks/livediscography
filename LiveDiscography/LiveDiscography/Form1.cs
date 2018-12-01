@@ -14,7 +14,7 @@ using MySql.Data.MySqlClient;
 
 namespace LiveDiscography
 {
-   
+
     public partial class FormPrincipal : Form
     {
         public FormPrincipal()
@@ -92,6 +92,7 @@ namespace LiveDiscography
         //Evento "Click" del botón Add New Artist
         private void btnAddArtist_Click(object sender, EventArgs e)
         {
+            System.FormatException sFex = new FormatException();
             flag = true;
             fA.Text = "New Artist";
             fA.txtArName.Clear();
@@ -103,10 +104,20 @@ namespace LiveDiscography
             {
                 if (fA.ShowDialog() == DialogResult.OK)
                 {
+                    try
+                        {
                     flag = true;
                     if (artists.Count > 0)
                     {
-                        addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+                        if(fA.txtArName.Text.Equals("")|| fA.txtArGenre.Text.Equals("")|| fA.txtArLabel.Text.Equals("")|| fA.txtArRealName.Text.Equals(""))
+                            {
+                                throw sFex;
+                            }
+
+                            addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+
+                        
+                        //inicio try
 
                         if (comprobar(addedArtist) == false)
                         {
@@ -121,7 +132,7 @@ namespace LiveDiscography
                             lbArtist.Items.Add(addedArtist.Name);
                             artists.Add(addedArtist);
                             lbArtist.Refresh();
-
+                            //final try
                         }
                         else
                         {
@@ -135,6 +146,11 @@ namespace LiveDiscography
                         artists.Add(addedArtist);
                         lbArtist.Items.Add(addedArtist.Name);
                         lbArtist.Refresh();
+                    }
+                    }
+                    catch (System.FormatException sfEx)
+                    {
+                        MessageBox.Show("You can't leave blank fields");
                     }
                 }
             }
@@ -157,23 +173,28 @@ namespace LiveDiscography
                     try
                     {
                         addedSong = new Song(fS.txtTitle.Text, fS.txtAlbum.Text, fS.txtArtist.Text, Convert.ToInt16(fS.txtLenMin.Text), Convert.ToInt16(fS.txtLenSec.Text), fS.txtGenre.Text);
-
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Numeric values can't include letters or characters");
-                    }
-
-                    foreach (DataTable dtr in ds.Tables)
-                    {
-                        if (dtr.TableName.Equals("Songs"))
+                        foreach (DataTable dtr in ds.Tables)
                         {
-                            this.addToDataTable(dtr, addedSong);
+                            if (dtr.TableName.Equals("Songs"))
+                            {
+                                this.addToDataTable(dtr, addedSong);
+                            }
                         }
+                        songs.Add(addedSong);
+                        lbSong.Items.Add(addedSong.SongName);
+                        lbSong.Refresh();
                     }
-                    songs.Add(addedSong);
-                    lbSong.Items.Add(addedSong.SongName);
-                    lbSong.Refresh();
+
+                    catch (System.FormatException fEx)
+                    {
+                        MessageBox.Show("You can't leave blank fields nor write non-numeric values");
+                    }
+                    catch (System.OverflowException sOEx)
+                    {
+                        MessageBox.Show("You have written a number that is too large");
+                    }
+
+
                 }
             }
             catch (MySql.Data.MySqlClient.MySqlException)
@@ -181,6 +202,7 @@ namespace LiveDiscography
                 MessageBox.Show("No SQL server found, your changes cannot be saved");
 
             }
+
         }
 
         //Evento "Click" del botón Add New Album
@@ -194,24 +216,21 @@ namespace LiveDiscography
                     try
                     {
                         addedAlbum = new Album(fAl.txtTitle.Text, Convert.ToInt16(fAl.txtYear.Text), (fAl.cbMonth.SelectedItem).ToString(), Convert.ToInt16(fAl.txtDay.Text), fAl.txtCountry.Text, fAl.txtRecordLabel.Text, fAl.txtGenre.Text, Convert.ToInt16(fAl.txtLength.Text), Convert.ToInt16(fAl.txtTracks.Text), fAl.txtArtist.Text);
-
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Numeric values can't include letters or characters");
-                    }
-
-
-                    foreach (DataTable dtr in ds.Tables)
-                    {
-                        if (dtr.TableName.Equals("Albums"))
+                        foreach (DataTable dtr in ds.Tables)
                         {
-                            this.addToDataTable(dtr, addedAlbum);
+                            if (dtr.TableName.Equals("Albums"))
+                            {
+                                this.addToDataTable(dtr, addedAlbum);
+                            }
                         }
+                        albums.Add(addedAlbum);
+                        lbAlbum.Items.Add(addedAlbum.Title);
+                        lbAlbum.Refresh();
                     }
-                    albums.Add(addedAlbum);
-                    lbAlbum.Items.Add(addedAlbum.Title);
-                    lbAlbum.Refresh();
+                    catch (System.FormatException sFex)
+                    {
+                        MessageBox.Show("You can't leave blank fields nor write non-numeric values");
+                    }
                 }
 
             }
@@ -588,7 +607,7 @@ namespace LiveDiscography
             }
 
 
-        }      
+        }
 
         //Evento "Click" del botón Edit Album
         private void btnEditAlbum_Click(object sender, EventArgs e)
@@ -600,7 +619,7 @@ namespace LiveDiscography
 
                 if (editedAlbumName.Contains('\''))
                 {
-                    editedAlbumName= editedAlbumName.Replace('\'', '´');
+                    editedAlbumName = editedAlbumName.Replace('\'', '´');
                 }
 
                 fAl.Text = "Edit Album";
@@ -673,6 +692,10 @@ namespace LiveDiscography
             {
                 MessageBox.Show("Please replace the character \' for a ´");
             }
+            catch (System.ArgumentException aEx)
+            {
+                MessageBox.Show("Unable to  save, introduced value in some field is too large");
+            }
         }
 
         //Evento "Click" del botón Edit Song
@@ -739,6 +762,9 @@ namespace LiveDiscography
             catch (System.NullReferenceException nrEx)
             {
                 MessageBox.Show("No song selected, please chose one");
+            }catch(System.ArgumentException sAex)
+            {
+                MessageBox.Show("Unable to  save, introduced value in some field is too large or has a non-numeric value");
             }
         }
 
