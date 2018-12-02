@@ -64,6 +64,7 @@ namespace LiveDiscography
                 daAlbums.Fill(ds, "Albums");
                 daSongs.Fill(ds, "Songs");
             }
+
             finally
             {
                 conexion.Close();
@@ -105,48 +106,48 @@ namespace LiveDiscography
                 if (fA.ShowDialog() == DialogResult.OK)
                 {
                     try
-                        {
-                    flag = true;
-                    if (artists.Count > 0)
                     {
-                        if(fA.txtArName.Text.Equals("")|| fA.txtArGenre.Text.Equals("")|| fA.txtArLabel.Text.Equals("")|| fA.txtArRealName.Text.Equals(""))
+                        flag = true;
+                        if (artists.Count > 0)
+                        {
+                            if (fA.txtArName.Text.Equals("") || fA.txtArGenre.Text.Equals("") || fA.txtArLabel.Text.Equals("") || fA.txtArRealName.Text.Equals(""))
                             {
                                 throw sFex;
                             }
 
                             addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
 
-                        
-                        //inicio try
 
-                        if (comprobar(addedArtist) == false)
-                        {
+                            //inicio try
 
-                            foreach (DataTable dtr in ds.Tables)
+                            if (comprobar(addedArtist) == false)
                             {
-                                if (dtr.TableName.Equals("Artists"))
+
+                                foreach (DataTable dtr in ds.Tables)
                                 {
-                                    this.addToDataTable(dtr, addedArtist);
+                                    if (dtr.TableName.Equals("Artists"))
+                                    {
+                                        this.addToDataTable(dtr, addedArtist);
+                                    }
                                 }
+                                lbArtist.Items.Add(addedArtist.Name);
+                                artists.Add(addedArtist);
+                                lbArtist.Refresh();
+                                //final try
                             }
-                            lbArtist.Items.Add(addedArtist.Name);
-                            artists.Add(addedArtist);
-                            lbArtist.Refresh();
-                            //final try
+                            else
+                            {
+                                MessageBox.Show("You can't add an artist that is already in the database");
+                            }
+
                         }
                         else
                         {
-                            MessageBox.Show("You can't add an artist that is already in the database");
+                            addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
+                            artists.Add(addedArtist);
+                            lbArtist.Items.Add(addedArtist.Name);
+                            lbArtist.Refresh();
                         }
-
-                    }
-                    else
-                    {
-                        addedArtist = new Artist(fA.txtArName.Text, fA.txtArGenre.Text, fA.txtArLabel.Text, fA.txtArRealName.Text);
-                        artists.Add(addedArtist);
-                        lbArtist.Items.Add(addedArtist.Name);
-                        lbArtist.Refresh();
-                    }
                     }
                     catch (System.FormatException sfEx)
                     {
@@ -415,6 +416,7 @@ namespace LiveDiscography
         //Evento de carga del formulario principal
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
+            InvalidCastException icEx=new InvalidCastException();
             try
             {
                 creaDataset();
@@ -425,37 +427,58 @@ namespace LiveDiscography
                 this.Close();
             }
 
-            foreach (DataTable dt in ds.Tables)
+            try
             {
-                if (dt.TableName.Equals("Artists"))
+                //INICIO
+                foreach (DataTable dt in ds.Tables)
                 {
-                    foreach (DataRow dr in dt.Rows)
+                    if (dt.TableName.Equals("Artists"))
                     {
-                        addedArtist = new Artist(dr[0] + "", dr[1] + "", dr[2] + "", dr[3] + "");
-                        artists.Add(addedArtist);
-                        lbArtist.Items.Add(addedArtist.Name);
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            if (dr.IsNull("Genre") || dr.IsNull("Labels") || dr.IsNull("RealName"))
+                            {
+                                throw icEx;
+                            }
+                            addedArtist = new Artist(dr[0] + "", dr[1] + "", dr[2] + "", dr[3] + "");
+                            artists.Add(addedArtist);
+                            lbArtist.Items.Add(addedArtist.Name);
+                        }
                     }
-                }
 
-                if (dt.TableName.Equals("Albums"))
-                {
-                    foreach (DataRow dr in dt.Rows)
+                    if (dt.TableName.Equals("Albums"))
                     {
-                        addedAlbum = new Album(dr[0] + "", Convert.ToInt32(dr[1]), dr[2] + "", Convert.ToInt32(dr[3]), dr[4] + "", dr[5] + "", dr[6] + "", Convert.ToInt32(dr[7]), Convert.ToInt32(dr[8]), dr[9] + "");
-                        albums.Add(addedAlbum);
-                        lbAlbum.Items.Add(addedAlbum.Title);
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            if (dr.IsNull("ReleaseMonth") || dr.IsNull("ReleaseCountry") || dr.IsNull("RecordLabel") || dr.IsNull("Genre") || dr.IsNull("AlbumArtist")){
+                                throw icEx;
+                            }
+                            addedAlbum = new Album(dr[0] + "", Convert.ToInt32(dr[1]), dr[2] + "", Convert.ToInt32(dr[3]), dr[4] + "", dr[5] + "", dr[6] + "", Convert.ToInt32(dr[7]), Convert.ToInt32(dr[8]), dr[9] + "");
+                            albums.Add(addedAlbum);
+                            lbAlbum.Items.Add(addedAlbum.Title);
+                        }
                     }
-                }
-                if (dt.TableName.Equals("Songs"))
-                {
-                    foreach (DataRow dr in dt.Rows)
+                    if (dt.TableName.Equals("Songs"))
                     {
-                        addedSong = new Song(dr[0] + "", dr[1] + "", dr[2] + "", Convert.ToInt32(dr[3]), Convert.ToInt32(dr[4]), dr[5] + "");
-                        songs.Add(addedSong);
-                        lbSong.Items.Add(addedSong.SongName);
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            if (dr.IsNull("Album") || dr.IsNull("Artist") || dr.IsNull("Genre"))
+                            {
+                                throw icEx;
+                            }
+                            addedSong = new Song(dr[0] + "", dr[1] + "", dr[2] + "", Convert.ToInt32(dr[3]), Convert.ToInt32(dr[4]), dr[5] + "");
+                            songs.Add(addedSong);
+                            lbSong.Items.Add(addedSong.SongName);
 
+                        }
                     }
-                }
+                }               
+            }
+            catch (System.InvalidCastException icExG)
+            {
+                MessageBox.Show("Your database can't contain NULL values, the program will now finish");
+
+                this.Close();
             }
             this.Refresh();
 
@@ -762,7 +785,8 @@ namespace LiveDiscography
             catch (System.NullReferenceException nrEx)
             {
                 MessageBox.Show("No song selected, please chose one");
-            }catch(System.ArgumentException sAex)
+            }
+            catch (System.ArgumentException sAex)
             {
                 MessageBox.Show("Unable to  save, introduced value in some field is too large or has a non-numeric value");
             }
